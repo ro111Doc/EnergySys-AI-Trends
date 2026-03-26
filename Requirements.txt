@@ -1,0 +1,34 @@
+Requirements.txt 与环境配置说明
+
+1. 基础开发环境（Development Environment）
+本项目采用 Python 作为主要开发语言，并结合常用开发工具与版本管理工具进行协作开发。
+编程语言：Python 3.7 及以上
+开发工具：PyCharm / VS Code
+文档编辑：Typora
+版本管理：Git
+代码托管：GitHub
+
+
+2. Python依赖环境（Python Dependencies）
+项目核心依赖如下：
+pandas>=1.1.0
+matplotlib>=3.3.0
+numpy>=1.19.0
+
+说明：
+pandas：用于文献数据的读取、处理与筛选
+matplotlib：用于生成 PRISMA 流程图及统计图表
+numpy：用于基础数据计算支持
+
+
+3. Python运行环境（Interpreter Environment）
+项目基于 PyCharm 内置虚拟环境（venv）运行：(env_python.png)
+说明：使用 Python 3.7 虚拟环境（venv）；解释器位于项目目录下 venv/；所有依赖库在虚拟环境中安装保证不同设备运行环境一致，避免依赖冲突。
+
+
+4. Git版本管理（Version Control）
+项目使用 Git 进行版本控制，并托管于 GitHub：(env_project.png)
+说明：所有代码与文档均通过 Git 进行版本管理，每次修改均记录在 commit history 中，支持多人协作与版本回溯，项目结构与文件变更清晰可追踪。
+
+5. 可复现性说明（Reproducibility）：(env_git.png)
+本项目通过统一依赖环境与虚拟环境配置，保证不同成员在相同环境下可复现运行结果。
