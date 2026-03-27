@@ -1,0 +1,399 @@
+SrcDatabase-来源库: 硕士
+Title-题名: 并网微电网多目标优化调度及求解算法研究
+Author-作者:任甜甜
+Organ-单位: 西安理工大学
+Source-文献来源: 西安理工大学
+PubTime-发表时间: 2024-06-30
+DOI-DOI: 10.27398/d.cnki.gxalu.2024.000658
+
+SrcDatabase-来源库: 期刊
+Title-题名: 多策略改进白鲨算法的风光氢储微电网优化调度
+Author-作者:李练兵;高一波;代亮亮;高国强
+Organ-单位: 河北工业大学人工智能与数据科学学院;河北工业大学省部共建电工装备可靠性与智能化国家重点实验室
+Source-文献来源: 华中科技大学学报(自然科学版)
+PubTime-发表时间: 2025-03-14 08:59
+Fund-基金: 河北省省级科技计划资助项目(20312102D)
+DOI-DOI: 10.13245/j.hust.250644
+
+SrcDatabase-来源库: 硕士
+Title-题名: 考虑源荷预测的改进多目标粒子群微电网优化调度研究
+Author-作者:杨晓静
+Organ-单位: 北方工业大学
+Source-文献来源: 北方工业大学
+PubTime-发表时间: 2024-06-05
+DOI-DOI: 10.26926/d.cnki.gbfgu.2024.000792
+
+SrcDatabase-来源库: 期刊
+Title-题名: 基于峰谷电价与储能SOC状态的微电网能量调度策略研究
+Author-作者:刘亚伟;关朋;孙陆楠;王春辉;王淏
+Organ-单位: 天津电气科学研究院有限公司
+Source-文献来源: 电气传动
+PubTime-发表时间: 2024-12-16
+Fund-基金: 天津电气科学研究院有限公司创新基金（GE2023ZL002）
+DOI-DOI: 10.19457/j.1001-2095.dqcd24909
+
+SrcDatabase-来源库: 期刊
+Title-题名: 考虑分时电价下基于改进蛇算法的混合能源微电网群低碳经济优化调度研究
+Author-作者:李宏玉;续海宝;张浪;周刚
+Organ-单位: 东北石油大学电气信息工程学院;中国石油集团长城钻探工程有限公司四川页岩气项目部
+Source-文献来源: 太阳能学报
+PubTime-发表时间: 2025-04-05
+DOI-DOI: 10.19912/j.0254-0096.tynxb.2023-1790
+
+SrcDatabase-来源库: 期刊
+Title-题名: 风-光-柴-储微电网能量管理的日前优化调度策略分析
+Author-作者:万炜兴;周龙;谢丽蓉;包洪印;张琦
+Organ-单位: 新疆大学可再生能源发电与并网技术教育部工程研究中心;中船海为(新疆)新能源有限公司
+Source-文献来源: 太阳能
+PubTime-发表时间: 2024-10-30
+Fund-基金: 新疆重大科技专项(2022A1001-1,2022A01007-4);;新疆风-光-柴-储微电网工程技术研究中心(2022062420)
+DOI-DOI: 10.19911/j.1003-0417.tyn20231115.01
+
+SrcDatabase-来源库: 期刊
+Title-题名: 基于改进哈里斯鹰算法的多能源微电网智能优化调度
+Author-作者:周咏;朱星阳;赵伟;赵杨阳;王彬彬;丁一帆
+Organ-单位: 国网(苏州)城市能源研究院有限责任公司
+Source-文献来源: 能源与环保
+PubTime-发表时间: 2025-03-25
+Fund-基金: 国家电网公司科技项目(CEKY23095)
+DOI-DOI: 10.19389/j.cnki.1003-0506.2025.03.034
+
+SrcDatabase-来源库: 期刊
+Title-题名: 基于火用损能效评估的多能耦合微电网双层协同优化方法
+Author-作者:史家驹;杨祺铭;刘达夫;赵若轩;李明昊;陈晨
+Organ-单位: 电工材料电气绝缘全国重点实验室(西安交通大学);国网上海市电力公司浦东供电公司;国家电网有限公司西南分部
+Source-文献来源: 电力需求侧管理
+PubTime-发表时间: 2025-07-15
+Fund-基金: 国家自然科学基金项目（52377122）
+
+SrcDatabase-来源库: 硕士
+Title-题名: 基于混合储能系统微电网模型的容量配置及实时优化调度研究
+Author-作者:杨澳
+Organ-单位: 贵州大学
+Source-文献来源: 贵州大学
+PubTime-发表时间: 2024-05-01
+DOI-DOI: 10.27047/d.cnki.ggudu.2024.003176
+
+SrcDatabase-来源库: 硕士
+Title-题名: 基于多目标优化算法的电力系统优化调度研究
+Author-作者:阚绪状
+Organ-单位: 安徽工程大学
+Source-文献来源: 安徽工程大学
+PubTime-发表时间: 2024-05-23
+DOI-DOI: 10.27763/d.cnki.gahgc.2024.000190
+
+SrcDatabase-来源库: 期刊
+Title-题名: 考虑用户侧共享储能的山区微电网优化调度策略
+Author-作者:符林贝;王海生;李中中;马立红;周航;张昌俊;崔建钊
+Organ-单位: 海南电网有限责任公司海南能源发展研究院
+Source-文献来源: 浙江电力
+PubTime-发表时间: 2025-06-25
+Fund-基金: 国家重点研发计划（2021YFB1507100）
+DOI-DOI: 10.19585/j.zjdl.202506005
+
+SrcDatabase-来源库: 期刊
+Title-题名: 基于多能互补的微电网调度策略研究
+Author-作者:彭枭萌;陈耀;陈晨;齐昊
+Organ-单位: 国电南瑞南京控制系统有限公司;能拓能源股份有限公司;南京国瑞能源科技有限公司
+Source-文献来源: 中国高新科技
+PubTime-发表时间: 2024-08-10
+DOI-DOI: 10.13535/j.cnki.10-1507/n.2024.15.30
+
+SrcDatabase-来源库: 硕士
+Title-题名: 多元不确定性下微电网能量管理的研究
+Author-作者:肖国威
+Organ-单位: 广东工业大学
+Source-文献来源: 广东工业大学
+PubTime-发表时间: 2025-05-24
+DOI-DOI: 10.27029/d.cnki.ggdgu.2025.002295
+
+SrcDatabase-来源库: 期刊
+Title-题名: 基于标准化麻雀搜索算法的微电网调度研究
+Author-作者:陈文君
+Organ-单位: 国网河南省电力公司新乡县供电公司
+Source-文献来源: 中国品牌与防伪
+PubTime-发表时间: 2024-12-18
+
+SrcDatabase-来源库: 期刊
+Title-题名: 融合VMD-MPC算法的多微电网能量调度技术优化
+Author-作者:徐振;关亚飞;任靖玮;马骁兵
+Organ-单位: 国网安徽省电力有限公司淮北供电公司
+Source-文献来源: 粘接
+PubTime-发表时间: 2024-04-15
+
+SrcDatabase-来源库: 外文期刊
+Title-题名: Intelligent Electricity Consumption Prediction for Smart Home Based on BiLSTM‐Attention
+Author-作者:Qinghai Li;Li Zhu;Minghu Zha;Tao Hu
+Organ-单位: College of Intelligent Science and Engineering;Hubei Minzu University;Enshi;China;hbmy.edu.cn;Hubei Engineering Research Center of Selenium Food Nutrition and Health Intelligent Technology;College of Intelligent Science and Engineering;Hubei Minzu University;Enshi;China;hbmy.edu.cn
+Source-文献来源: International Journal of Distributed Sensor Networks
+PubTime-发表时间: 2025-12-15
+Fund-基金: Natural Science Foundation of Hubei Province(2025AFD161);Outstanding Youth Science and Technology Innovation Team Project for Colleges and Universities of Hubei Province of China(T2023013);Hubei Engineering Research Center of Selenium Food Nutrition and Health Intelligent Technology(PT082302)
+DOI-DOI: 10.1155/DSN/7868626
+
+SrcDatabase-来源库: 外文期刊
+Title-题名: DBSRad‐LSTM: DBSCAN Clustering for Load Forecasting in Microgrids Using Radial LSTM
+Author-作者:Fazli khuda;Gan Zengkang;Razaz Waheeb Attar;Tariq Hussain;Khalid Zaman;Chen Wei;Majad Mansoor;Rahat Ullah;Salman Khan
+Organ-单位: Institute of Intelligent Manufacturing Technology;Shenzhen Polytechnic University;Shenzhen;Guangdong;China;Abasyn University Peshawar;Peshawar;KPK;Pakistan;Department of Management; College of Business Administration;Princess Nourah bint Abdulrahman University;Riyadh;Saudi Arabia;School of Computer Science and Technology;Zhejiang Gongshang University;Hangzhou;China;Shenzhen Institute of Advanced Technology;Chinese Academy of Sciences;Shenzhen;China;Department of Electrical Engineering;Federal Urdu University of Arts; Science; and Technology;Islamabad;Pakistan;School of Energy and Electrical Engineering;Changan University;Xian;Shaanxi;China
+Source-文献来源: IET Renewable Power Generation
+PubTime-发表时间: 2025-12-12
+Fund-基金: Princess Nourah bint Abdulrahman University Researchers Supporting Project(PNURSP2025R343);Key Area Special Project of Guangdong Provincial Department of Education(6022210111K);Post‐doctoral Foundation Project of Shenzhen Polytechnic University(6024331021K);Department of Education of Guangdong Province(2024GCZX014)
+DOI-DOI: 10.1049/RPG2.70162
+
+SrcDatabase-来源库: 外文期刊
+Title-题名: ICEEMDAN- and LSTM-Enhanced Hybrid Cosine-Attention iTransformer for Ultra-Short-Term Load Forecasting
+Author-作者:Xiangdong Meng;Jiarui Wang;Dexin Li;Haifeng Zhang;Qiran Sun;Hui Wang
+Organ-单位: State Grid Jilin Electric Power Research Institute; Changchun 130021; China;State Grid Jilin Electric Power Co.; Ltd.; Changchun 130021; China;School of Electrical Engineering and Information Technology; Changchun Institute of Technology; Changchun 130012; China
+Source-文献来源: Electronics
+PubTime-发表时间: 2025-12-10
+Fund-基金: This project was funded by Jilin Province’s ‘Land Scenic Three Gorges’ high-quality development major science and technology project-park-level multi-microgrid system participating in key technology research projects for grid-friendly interaction (project number: 20230303003SF).
+DOI-DOI: 10.3390/ELECTRONICS14244857
+
+SrcDatabase-来源库: 外文期刊
+Title-题名: A Three-Stage Hybrid Learning Framework for Sustainable Multi-Energy Load Forecasting in Park-Level Integrated Energy Systems
+Author-作者:Zhenlan Dou;Shuangzeng Tian;Fanyue Qian;Yongwen Yang
+Organ-单位: State Grid Shanghai Electric Power Company; Shanghai 200120; China;College of Energy and Mechanical Engineering; Shanghai University of Electric Power; Shanghai 200090; China
+Source-文献来源: Sustainability
+PubTime-发表时间: 2025-12-12
+Fund-基金: This project is supported by the Artificial Empowerment Research Leap Plan of the Shanghai Municipal Education Commission in China (No. Z2024-117).
+DOI-DOI: 10.3390/SU172411158
+
+SrcDatabase-来源库: 外文期刊
+Title-题名: Load forecasting based on CEEMDAN-SE-xLSTM-Transformer
+Author-作者:Lei Tian;Chengshen Lao;Zhanhao Yang
+Organ-单位: School of Electronic Engineering;Xi’an University of Posts and Telecommunications;West Chang’an Street;710121;Xi’an;Shaanxi;China
+Source-文献来源: The Journal of Supercomputing
+PubTime-发表时间: 2025-12-29
+Fund-基金: Key Research and Development Program of Shaanxi Program;Science and Technology Project of Xi'an city;Natural Science Basic Research Program of Shaanxi;Scientific Research Program of Shaanxi Provincial Education Department
+DOI-DOI: 10.1007/S11227-025-08149-Y
+
+SrcDatabase-来源库: 外文期刊
+Title-题名: Research on explainable BiGRU deep learning framework for short term load forecasting in smart power systems
+Author-作者:Zhiwei Wang;Mengzhou Xu;Jingchang Hao;Wei Li;Shiyao Cheng
+Organ-单位: State Grid Customer Service Center Marketing Business Support Center;100000;Beijing;China
+Source-文献来源: Discover Artificial Intelligence
+PubTime-发表时间: 2025-12-22
+DOI-DOI: 10.1007/S44163-025-00696-W
+
+SrcDatabase-来源库: 外文期刊
+Title-题名: AI-driven smart grid optimization for hospital energy systems integrating renewable generation, predictive maintenance, and resilient infrastructure
+Author-作者:Md Tanjil Sarker;Gobbi Ramasamy;Marran Al Qwaid;Md Sabbir Hossen;Md. Golam Sadeque
+Organ-单位: Centre for Electric Energy and High Voltage; CoE for Robotics and Sensing Technologies; Faculty of Artificial Intelligence and Engineering;Multimedia University;63100;Cyberjaya;Malaysia;Department of Computer Science; College of Computing and Information Technology;Shaqra University;11961;Shaqra;Saudi Arabia;Department of Electrical and Electronics Engineering;Pabna University of Science and Technology;6600;Pabna;Bangladesh
+Source-文献来源: Scientific Reports
+PubTime-发表时间: 2025-12-29
+Fund-基金: Multimedia University
+DOI-DOI: 10.1038/S41598-025-28907-5
+
+SrcDatabase-来源库: 外文期刊
+Title-题名: Design of a hybrid learning model for establishing consistency in smart grid environment
+Author-作者:S. Mahendran;B. Gomathy
+Organ-单位: Department of Electronics and Communication Engineering;KGiSL Institute of Technology;Coimbatore;Tamil Nadu;India;Department of Computer Science and Engineering;PSG Institute of Technology and Applied Research;Coimbatore;Tamil Nadu;India
+Source-文献来源: Scientific Reports
+PubTime-发表时间: 2025-12-29
+DOI-DOI: 10.1038/S41598-025-28986-4
+
+SrcDatabase-来源库: 外文期刊
+Title-题名: Demand response for efficient power generation in smart grids using hyper–local weather prediction
+Author-作者:Faraz Shaikh;Hasan Ali Khattak;Hasan Sohaib Alavi;Haleem Farman;Moustafa M. Nasralla
+Organ-单位: School of Electrical Engineering and Computer Science (SEECS); National University of Sciences and Technology (NUST); Islamabad; Pakistan;Department of Engineering; University of Perugia; Perugia; Umbria; Italy;School of Computer; Data & Mathematical Sciences; Western Sydney University; Sydney; NSW; Australia;Beyond Engineering NL BV; Harderwijk Gelderland; Netherlands;Smart Systems Engineering Lab; Communications and Networks Engineering Department; College of Engineering; Prince Sultan University; Riyadh; Saudi Arabia
+Source-文献来源: Cogent Engineering
+PubTime-发表时间: 2025-12-31
+Fund-基金: This article is derived from a research grant funded by the Research, Development, and Innovation Authority (RDIA)-Kingdom of Saudi Arabia-with grant number (13292-psu-2023-PSNU-R-3-1-EF-).;Research, Development, and Innovation Authority (RDIA)-Kingdom of Saudi Arabia(13292-psu-2023-PSNU-R-3-1-EF-)
+DOI-DOI: 10.1080/23311916.2025.2555341
+
+SrcDatabase-来源库: 外文期刊
+Title-题名: Optimizing electricity demand forecasting with a novel RNN-LSTM hybrid model
+Author-作者:Yıldırım Özüpak;Shuhratjon Mansurov
+Organ-单位: Silvan Vocational School; Dicle University; Diyarbakır; Türkiye;Department of Renewable Energy Resources; Dicle University; Diyarbakır; Türkiye
+Source-文献来源: Energy Sources, Part B: Economics, Planning, and Policy
+PubTime-发表时间: 2025-12-31
+DOI-DOI: 10.1080/15567249.2025.2531448
+
+SrcDatabase-来源库: 外文期刊
+Title-题名: A Data Prediction and Physical Simulation Coupled Method for Quantifying Building Adjustable Margin
+Author-作者:Bangpeng Xie;Liting Zhang;Wenkai Zhao;Yiming Yuan;Xiaoyi Chen;Xiao Luo;Chaoran Fu;Jiayu Wang;Fanyue Qian;Yongwen Yang;Sen Lin
+Organ-单位: State Grid Shanghai Pudong Electric Power Supply Company; Shanghai 200122; China;College of Energy and Mechanical Engineering; Shanghai University of Electric Power; Shanghai 200090; China
+Source-文献来源: Buildings
+PubTime-发表时间: 2025-12-30
+Fund-基金: This research was funded by the technology project of State Grid Shanghai Municipal Electric Power Company in China, grant number SGSHPD00ZSJS2413049.
+DOI-DOI: 10.3390/BUILDINGS16010170
+
+SrcDatabase-来源库: 外文期刊
+Title-题名: Measuring Peak Shaving Efficiency of an Energy Storage Device Under Load Uncertainty with Machine Learning-Based Forecasting Techniques
+Author-作者:Lidor Goldshmidt;Tom Dovlekaev;Ram Machlev
+Organ-单位: The Andrew and Erna Viterbi Faculty of Electrical and Computer Engineering; Technion—Israel Institute of Technology; Haifa 3200003; Israel
+Source-文献来源: Energies
+PubTime-发表时间: 2025-12-22
+DOI-DOI: 10.3390/EN19010061
+
+SrcDatabase-来源库: 外文期刊
+Title-题名: Short‐Term Residential Load Forecasting With FG‐LSTM‐TA: A Hybrid Deep Learning Approach Integrating Feature Gating and Temporal Attention for Enhanced Prediction Accuracy
+Author-作者:Mehdi Mohammadian Mehr;Hossein Farzin;Elaheh Mashhour
+Organ-单位: Department of Electrical Engineering;Faculty of Engineering; Shahid Chamran University of Ahvaz;Ahvaz;Iran
+Source-文献来源: Engineering Reports
+PubTime-发表时间: 2025-12-23
+Fund-基金: Research Council of Shahid Chamran University of Ahvaz, Iran(SCU.EE1404.37219)
+DOI-DOI: 10.1002/ENG2.70570
+
+SrcDatabase-来源库: 期刊
+Title-题名: 面向集装箱船能量管理的船舶微电网全航程经济调度策略
+Author-作者:王萧博;贾勇勇;朱鑫要;李铮
+Organ-单位: 国网江苏省电力有限公司电力科学研究院
+Source-文献来源: 上海交通大学学报
+PubTime-发表时间: 2024-09-03 11:44
+DOI-DOI: 10.16183/j.cnki.jsjtu.2024.184
+
+SrcDatabase-来源库: 期刊
+Title-题名: 基于联邦Dueling DQN的基站微电网能量与计算资源联合调度
+Author-作者:黎海涛;高文浩;杨艳红;谢冬雪;乔禄
+Organ-单位: 北京工业大学信息科学技术学院;中国科学院电工研究所
+Source-文献来源: 电力信息与通信技术
+PubTime-发表时间: 2025-06-30 08:48
+Fund-基金: 国家重点研发计划项目(2024YFB0115700)
+
+SrcDatabase-来源库: 期刊
+Title-题名: 计及混合储能单元多重异构特性的微电网调度策略研究
+Author-作者:周航;苗世洪;王廷涛;何立钢;虞天航
+Organ-单位: 强电磁技术全国重点实验室(华中科技大学)
+Source-文献来源: 现代电力
+PubTime-发表时间: 2025-07-15 15:45
+Fund-基金: 国家电网有限公司科技项目(5419-202320786A-3-8-KJ)
+DOI-DOI: 10.19725/j.cnki.1007-2322.2024.0085
+
+SrcDatabase-来源库: 硕士
+Title-题名: 考虑需求侧响应的微电网经济优化调度研究
+Author-作者:李明倩
+Organ-单位: 重庆理工大学
+Source-文献来源: 重庆理工大学
+PubTime-发表时间: 2025-03-13
+DOI-DOI: 10.27753/d.cnki.gcqgx.2025.001522
+
+SrcDatabase-来源库: 硕士
+Title-题名: 基于强化学习的微电网能源优化调度
+Author-作者:陈一铭
+Organ-单位: 杭州电子科技大学
+Source-文献来源: 杭州电子科技大学
+PubTime-发表时间: 2025-05-01
+DOI-DOI: 10.27075/d.cnki.ghzdc.2025.001900
+
+SrcDatabase-来源库: 硕士
+Title-题名: 基于联邦强化学习的微电网储能调度方法的研究与应用
+Author-作者:王齐
+Organ-单位: 黑龙江大学
+Source-文献来源: 黑龙江大学
+PubTime-发表时间: 2025-03-27
+DOI-DOI: 10.27123/d.cnki.ghlju.2025.001668
+
+SrcDatabase-来源库: 硕士
+Title-题名: 波浪发电系统功率预测与微电网调度优化
+Author-作者:钟卓玲
+Organ-单位: 广东工业大学
+Source-文献来源: 广东工业大学
+PubTime-发表时间: 2025-05-24
+Fund-基金: 国家自然科学基金(62173148);;
+广东省自然科学基金(2022A1515010150;2023A1515010184)
+DOI-DOI: 10.27029/d.cnki.ggdgu.2025.000906
+
+SrcDatabase-来源库: 硕士
+Title-题名: 新能源微电网群多尺度鲁棒动态调控研究
+Author-作者:徐家文
+Organ-单位: 广东工业大学
+Source-文献来源: 广东工业大学
+PubTime-发表时间: 2025-05-25
+Fund-基金: 国家自然科学基金面上项目“新能源高渗透异质多尺度综合能源微网群分布式状态估计及安全域约束随机预测控制研究”(62273104);;
+粤桂联合基金-面上项目,“基于多智能体动态博弈与预测机制融合的新能源微电网群分布式优化调控研究”(2021A1515410009);;
+广东省自然科学基金面上项目“多重不确定因素下工业园区综合能源系统数据驱动分布鲁棒模型预测调度控制研究”(2022A1515011163);;
+广州市科技计划项目“新能源微电网群频率分层分布预测控制研究”(2023A04J0273)
+DOI-DOI: 10.27029/d.cnki.ggdgu.2025.001070
+
+SrcDatabase-来源库: 硕士
+Title-题名: 基于合作博弈的风光储微电网群能量管理研究
+Author-作者:余政德
+Organ-单位: 安徽理工大学
+Source-文献来源: 安徽理工大学
+PubTime-发表时间: 2025-06-06
+DOI-DOI: 10.26918/d.cnki.ghngc.2025.001579
+
+SrcDatabase-来源库: 硕士
+Title-题名: 考虑共享储能与综合需求响应协同的多区域风光微电网优化调度研究
+Author-作者:刘凌志
+Organ-单位: 广西大学
+Source-文献来源: 广西大学
+PubTime-发表时间: 2025-06-01
+DOI-DOI: 10.27034/d.cnki.ggxiu.2025.000594
+
+SrcDatabase-来源库: 期刊
+Title-题名: 基于大数据分析的电力调度自动化负荷预测模型研究
+Author-作者:胡阳
+Organ-单位: 国网陕西省电力有限公司汉中供电公司
+Source-文献来源: 技术与市场
+PubTime-发表时间: 2025-12-15
+
+SrcDatabase-来源库: 期刊
+Title-题名: 一种双阶段电力数据异常分析模型
+Author-作者:刘浩;高明海;俞文帅;季溢贤;刘立运;黄金贤;耿斌;王彬
+Organ-单位: 国网镇江供电公司
+Source-文献来源: 兵工自动化
+PubTime-发表时间: 2025-12-15
+
+SrcDatabase-来源库: 期刊
+Title-题名: 基于深度学习的电力输配电线路节能降耗技术研究
+Author-作者:祁晓飞
+Organ-单位: 华电甘肃能源有限公司
+Source-文献来源: 电气技术与经济
+PubTime-发表时间: 2025-12-25
+
+SrcDatabase-来源库: 期刊
+Title-题名: 基于分布式优化算法的电力系统负荷预测方法
+Author-作者:罗小蕾
+Organ-单位: 河南费曼电力技术有限公司
+Source-文献来源: 电气技术与经济
+PubTime-发表时间: 2025-12-25
+
+SrcDatabase-来源库: 期刊
+Title-题名: 基于风光荷预测与DFT-MP-DBN建模的主动配电网可靠性评估
+Author-作者:牟晋麟;杨超
+Organ-单位: 贵州大学电气工程学院
+Source-文献来源: 电子测量技术
+PubTime-发表时间: 2025-12-23
+Fund-基金: 2025年科技成果转化联合基金(黔科合成果LH[2025]重点014)项目资助
+DOI-DOI: 10.19651/j.cnki.emt.2519013
+
+SrcDatabase-来源库: 期刊
+Title-题名: 基于人工智能的配电网负荷预测技术设计与应用研究
+Author-作者:陈文;罗洋;孔王莺;王正用
+Organ-单位: 国网西藏电力有限公司昌都供电公司;浙江华云电力工程设计咨询有限公司
+Source-文献来源: 电工技术
+PubTime-发表时间: 2025-12-10
+DOI-DOI: 10.19768/j.cnki.dgjs.2025.23.039
+
+SrcDatabase-来源库: 期刊
+Title-题名: 基于深度学习的电网负荷预测与调度优化研究
+Author-作者:林昊
+Organ-单位: 滁州明光市供电公司
+Source-文献来源: 信息化研究
+PubTime-发表时间: 2025-12-20
+
+SrcDatabase-来源库: 期刊
+Title-题名: 面向智能化的智慧园区微电网调度优化方法
+Author-作者:刘博
+Organ-单位: 国电南瑞科技股份有限公司
+Source-文献来源: 智慧中国
+PubTime-发表时间: 2025-07-25
+
+SrcDatabase-来源库: 期刊
+Title-题名: 基于粒子群算法的微电网调度研究分析
+Author-作者:马莉;陈旭东;郗皓;武雪青;王沛;哈丽米热·热依木江
+Organ-单位: 昌吉学院能源与控制工程学院
+Source-文献来源: 电工技术
+PubTime-发表时间: 2025-07-25
+Fund-基金: 2023年新疆维吾尔自治区教育厅高校科研计划项目“基于深度学习的风电功率超短期预测研究”(编号XJEDU2023P129);;2024年昌吉学院能源与控制工程学院自治区级大学生创新创业训练计划项目“基于粒子群算法的微电网调度研究分析”(编号S202410997023)
+DOI-DOI: 10.19768/j.cnki.dgjs.2025.14.035
+
+SrcDatabase-来源库: 期刊
+Title-题名: 基于需求响应的微电网调度策略研究与应用
+Author-作者:司文旭;伍俊霖;武明科
+Organ-单位: 安科瑞电气股份有限公司;泸州老窖股份有限公司
+Source-文献来源: 现代建筑电气
+PubTime-发表时间: 2025-06-30
+DOI-DOI: 10.16618/j.cnki.1674-8417.2025.06.001
+
