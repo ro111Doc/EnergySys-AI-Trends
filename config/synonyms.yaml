@@ -1,0 +1,41 @@
+object:
+  literature_metrics:
+    - "literature metrology"
+    - "bibliometrics"
+    - "scientometrics"
+    - "informetrics"
+    - "citation analysis"
+    - "knowledge mapping"
+    - "science mapping"
+
+method:
+  reproducible_research:
+    - "reproducible research"
+    - "open science"
+    - "version control"
+    - "open source workflow"
+    - "code reproducibility"
+    - "automated analysis"
+    - "engineering workflow"
+
+context:
+  academic_review:
+    - "literature review"
+    - "systematic review"
+    - "research front"
+    - "hotspot detection"
+    - "trend analysis"
+    - "knowledge domain visualization"
+    - "academic evaluation"
+
+related_terms:
+  quality_control:
+    - "search quality control"
+    - "query engineering"
+    - "data deduplication"
+    - "field standardization"
+
+  applications:
+    - "scientific mapping"
+    - "research evaluation"
+    - "academic impact analysis"
