@@ -90,10 +90,8 @@
    - 移除合并数据中“来源文件”等冗余字段；
    - 对疑似重复记录添加标注，保留原始数据不删除。
 
-### 4.2 清洗工具与脚本依赖
-- 依赖脚本：`src/load_data.py`（字段格式标准化、缺失值标记）；
+### 4.2 清洗工具
 - 辅助工具：pandas（数据统计）、bibtexparser（DOI格式校验）；
-- 输出文件：`data/processed/cleaned_data.csv`（清洗后标准数据）。
 
 ## 5. 数据质量评估结论
 ### 5.1 整体质量等级：良好
@@ -117,5 +115,4 @@
 ---
 **报告版本**：v1.0  
 **生成时间**：2026-03-28  
-**数据统计脚本**：`src/data_quality_check.py`  
 **依赖文件**：`data/field_dictionary.md`、`config/query.yaml`、`reports/query_rationale.md`
