@@ -118,4 +118,4 @@
 **报告版本**：v1.0  
 **生成时间**：2026-03-28  
 **数据统计脚本**：`src/data_quality_check.py`  
-**依赖文件**：`data/field_dictionary.md`、`config/query.yaml`、`reports/query_rationale.md`当前文件内容过长，豆包只阅读了前 61%。
+**依赖文件**：`data/field_dictionary.md`、`config/query.yaml`、`reports/query_rationale.md`
