@@ -9,25 +9,42 @@ INPUT_PATH = DATA_DIR / "merged_with_citations.csv"
 OUTPUT_PATH = DATA_DIR / "screened_stage1.csv"
 
 
-lstm_keywords = [
-    "lstm", "long short-term memory", "bi-lstm", "attention", "gru", "rnn"
-]
-dl_keywords = [
-    "deep learning", "neural network", "cnn", "transformer"
+# ====== 方法关键词（时序预测方法）======
+ts_keywords = [
+    # 通用
+    "time series", "time-series", "forecasting", "prediction",
+
+    # 深度学习
+    "lstm", "gru", "rnn", "transformer", "attention",
+    "deep learning", "neural network", "cnn",
+
+    # 机器学习
+    "svr", "support vector", "random forest", "xgboost",
+
+    # 统计模型
+    "arima", "sarima", "arma", "statistical model"
 ]
 
+
+# ====== 任务关键词（负荷预测）======
 task_keywords = [
     "load forecasting", "load prediction", "electric load",
     "short-term load forecasting", "power load forecasting",
     "负荷预测", "电力负荷", "短期负荷预测"
 ]
+
+
+# ====== 电力领域关键词 ======
 domain_keywords = [
     "power system", "electric", "smart grid", "microgrid",
     "电力系统", "电网", "配电网", "微电网"
 ]
 
+
+# ====== 排除关键词 ======
 exclude_keywords = [
-    "stock", "price forecasting", "traffic", "股票", "交通"
+    "stock", "price forecasting", "traffic",
+    "股票", "交通", "exchange rate", "cryptocurrency"
 ]
 
 
@@ -59,8 +76,7 @@ def normalize_text(x):
 
 def deduplicate_records(df: pd.DataFrame) -> pd.DataFrame:
     """
-    专门针对 merged_with_citations.csv：
-    优先按 DOI 去重；没有 DOI 时按题名去重。
+    优先按 DOI 去重；没有 DOI 时按题名去重
     """
     df = df.copy()
 
@@ -78,8 +94,7 @@ def deduplicate_records(df: pd.DataFrame) -> pd.DataFrame:
             df[title_col] = df[title_col].astype(str).str.strip()
             df_without_doi = df_without_doi.drop_duplicates(subset=[title_col], keep="first")
 
-        result = pd.concat([df_with_doi, df_without_doi], ignore_index=True)
-        return result
+        return pd.concat([df_with_doi, df_without_doi], ignore_index=True)
 
     if title_col:
         df[title_col] = df[title_col].astype(str).str.strip()
@@ -95,6 +110,7 @@ def stage1_screen(row, title_col, abstract_col, year_col):
 
     reasons = []
 
+    # ====== 年份检查 ======
     year = None
     if year_col:
         try:
@@ -109,24 +125,30 @@ def stage1_screen(row, title_col, abstract_col, year_col):
         if year < 2015 or year > 2025:
             reasons.append("E4 - 时间不符 / Out of range")
 
+    # ====== 主题检查 ======
     if not any(k in text for k in task_keywords):
         reasons.append("E1 - 非本主题 / Not relevant")
 
     if not any(k in text for k in domain_keywords):
         reasons.append("E1 - 非本主题 / Not relevant")
 
-    if not (any(k in text for k in lstm_keywords) or any(k in text for k in dl_keywords)):
+    # ====== 方法检查（核心升级点）======
+    if not any(k in text for k in ts_keywords):
         reasons.append("E3 - 方法不符 / Method mismatch")
 
+    # ====== 排除关键词 ======
     if any(k in text for k in exclude_keywords):
         reasons.append("E1 - 非本主题 / Not relevant")
 
     reasons = sorted(set(reasons))
 
+    # ====== 判定逻辑 ======
     if len(reasons) == 0:
         return "include", ""
 
-    if ("E1 - 非本主题 / Not relevant" not in reasons) and ("E3 - 方法不符 / Method mismatch" not in reasons):
+    # 没有核心错误（E1 / E3），但存在其他问题 → uncertain
+    if ("E1 - 非本主题 / Not relevant" not in reasons) and \
+       ("E3 - 方法不符 / Method mismatch" not in reasons):
         return "uncertain", "; ".join(reasons)
 
     return "exclude", "; ".join(reasons)
