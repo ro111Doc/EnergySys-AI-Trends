@@ -1,0 +1,135 @@
+id: time_series_power_load_forecasting
+version: V1.0
+
+description: >
+  Time series forecasting methods for power load forecasting,
+  including deep learning, machine learning and statistical models.
+
+time_range:
+  start: 2015
+  end: 2025
+
+database:
+  - CNKI
+  - Web of Science
+
+field:
+  CNKI: TKA
+  WOS: TS
+
+# -------------------------
+# 核心词库（已扩展）
+# -------------------------
+
+terms:
+
+  method:
+
+    # 深度学习类
+    - LSTM
+    - "long short term memory"
+    - BiLSTM
+    - "bidirectional LSTM"
+    - GRU
+    - "gated recurrent unit"
+    - RNN
+    - "recurrent neural network"
+    - Transformer
+    - "attention mechanism"
+    - "temporal convolutional network"
+    - TCN
+
+    # 机器学习
+    - "support vector machine"
+    - SVM
+    - random forest
+    - XGBoost
+    - LightGBM
+
+    # 传统时间序列
+    - ARIMA
+    - SARIMA
+    - "time series forecasting"
+    - "time series prediction"
+
+    # 中文补充
+    - 时序预测
+    - 时间序列预测
+    - 时间序列分析
+
+  task:
+    - "load forecasting"
+    - "load prediction"
+    - "electric load forecasting"
+    - "power load forecasting"
+    - "electricity demand forecasting"
+    - "short-term load forecasting"
+    - STLF
+    - 电力负荷预测
+    - 负荷预测
+    - 短期负荷预测
+    - 电力需求预测
+
+  context:
+    - "power system"
+    - "power systems"
+    - "smart grid"
+    - "power grid"
+    - "distribution network"
+    - 电力系统
+    - 智能电网
+    - 电网
+    - 配电网
+
+  exclusion:
+    - "traffic flow forecasting"
+    - "network traffic forecasting"
+    - "server workload prediction"
+    - "CPU load prediction"
+    - "bridge load prediction"
+    - 交通流预测
+    - 网络流量预测
+    - 服务器负载预测
+    - CPU负载预测
+    - 桥梁荷载预测
+
+# -------------------------
+# 逻辑结构
+# -------------------------
+
+logic:
+
+  core_query: >
+    (method) AND (task) AND (context)
+
+  exclusion_query: >
+    NOT (exclusion)
+
+  full_query: >
+    (method OR method OR ...) 
+    AND (task OR task OR ...) 
+    AND (context OR context OR ...) 
+    NOT (exclusion OR exclusion OR ...)
+
+# -------------------------
+# 导出配置
+# -------------------------
+
+export:
+
+  format: csv
+
+  fields:
+    - title
+    - authors
+    - source
+    - keywords
+    - abstract
+    - year
+    - cited_count
+    - reference_count
+    - DOI
+
+  note: >
+    Web of Science导出时需勾选：
+    Full Record + Cited References
