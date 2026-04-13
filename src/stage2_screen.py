@@ -1,128 +1,91 @@
 import pandas as pd
-from pathlib import Path
 
+# ====================== 配置（不用改，直接运行）======================
+INPUT_FILE = "stage1_included_final.csv"       # 输入文件
+OUTPUT_INCLUDED = "included_final.csv"        # 筛后留下的文件
+OUTPUT_EXCLUDED = "excluded_final.csv"        # 被筛掉的文件（带原因）
+# ====================================================================
 
-BASE_DIR = Path(__file__).resolve().parents[1]
-DATA_DIR = BASE_DIR / "data"
-
-INPUT_PATH = DATA_DIR / "screened_stage1.csv"
-OUTPUT_PATH = DATA_DIR / "screened_final.csv"
-
-
-def read_csv_auto(csv_path: Path) -> pd.DataFrame:
-    encodings = ["utf-8-sig", "utf-8", "gbk", "latin1"]
-    last_error = None
-    for enc in encodings:
-        try:
-            df = pd.read_csv(csv_path, encoding=enc)
-            print(f"读取成功: {csv_path.name} | 编码: {enc}")
-            return df
-        except Exception as e:
-            last_error = e
-    raise ValueError(f"CSV读取失败: {csv_path}\n最后错误: {last_error}")
-
-
-def pick_column(df: pd.DataFrame, candidates, default=None):
-    for c in candidates:
-        if c in df.columns:
-            return c
-    return default
-
-
-def normalize_text(x):
-    if pd.isna(x):
+def clean_text(s):
+    """统一处理空值、空白字符"""
+    if pd.isna(s):
         return ""
-    return str(x).strip()
+    return str(s).strip().lower()
 
+def run_rescreen(df):
+    """
+    复筛主逻辑：按摘要筛选
+    返回：状态 + 剔除原因
+    """
+    included_list = []
+    excluded_list = []
 
-def deduplicate_records(df: pd.DataFrame) -> pd.DataFrame:
-    doi_col = pick_column(df, ["DOI", "doi"])
-    title_col = pick_column(df, ["题名", "title", "Title", "标题"])
+    # 遍历每一行文献
+    for idx, row in df.iterrows():
+        title = clean_text(row.get("TI", ""))
+        abstract = clean_text(row.get("AB", ""))
+        doc_type = clean_text(row.get("DT", ""))
 
-    if doi_col:
-        df[doi_col] = df[doi_col].astype(str).str.strip().str.lower()
-        has_doi = df[doi_col].notna() & (df[doi_col] != "") & (df[doi_col] != "nan")
-        df_with_doi = df[has_doi].drop_duplicates(subset=[doi_col], keep="first")
-        df_without_doi = df[~has_doi]
+        # ==================== 复筛规则（你的原有思路） ====================
+        reason = ""
 
-        if title_col:
-            df[title_col] = df[title_col].astype(str).str.strip()
-            df_without_doi = df_without_doi.drop_duplicates(subset=[title_col], keep="first")
+        # 规则1：无摘要 → 剔除
+        if abstract == "":
+            reason = "E1 - 无摘要"
 
-        return pd.concat([df_with_doi, df_without_doi], ignore_index=True)
+        # 规则2：非期刊文章/综述 → 剔除（保留 Article, Review）
+        elif doc_type not in ["article", "review"]:
+            reason = "E2 - 文献类型不符"
 
-    if title_col:
-        df[title_col] = df[title_col].astype(str).str.strip()
-        return df.drop_duplicates(subset=[title_col], keep="first")
+        # 规则3：必须包含研究方法关键词（可自己增删）
+        elif not any(k in abstract for k in [
+            "lstm", "gru", "rnn", "transformer", "cnn",
+            "long short-term memory", "attention", "prediction"
+        ]):
+            reason = "E3 - 方法不符"
 
-    return df.drop_duplicates()
+        # 规则4：必须包含实验/结果/验证 → 保证质量
+        elif not any(k in abstract for k in [
+            "experiment", "result", "validation", "test", "accuracy",
+            "实验", "结果", "验证", "预测"
+        ]):
+            reason = "E4 - 无实验/结果/验证"
 
+        # ==================== 筛选结束 ====================
+        if reason:
+            # 被剔除：添加原因
+            row_dict = dict(row)
+            row_dict["剔除原因"] = reason
+            excluded_list.append(row_dict)
+        else:
+            # 被保留
+            included_list.append(dict(row))
 
-def stage2_screen(row, fulltext_col, language_col):
-    reasons = []
-
-    status = normalize_text(row.get("stage1_status", "")).lower()
-    if status == "exclude":
-        return "exclude", normalize_text(row.get("stage1_reason", ""))
-
-    fulltext = normalize_text(row.get(fulltext_col, "")) if fulltext_col else ""
-    language = normalize_text(row.get(language_col, "")) if language_col else ""
-    fulltext_lower = fulltext.lower()
-    language_lower = language.lower()
-
-    if language_col:
-        allowed = {"english", "chinese", "英文", "中文", "en", "zh"}
-        if language_lower and language_lower not in allowed:
-            reasons.append("E5 - 语言不符 / Language mismatch")
-
-    if fulltext.strip() == "":
-        reasons.append("E2 - 无全文 / No full text")
-
-    if fulltext.strip() != "":
-        method_hits = ["lstm", "long short-term memory", "gru", "rnn", "transformer"]
-        if not any(k in fulltext_lower for k in method_hits):
-            reasons.append("E3 - 方法不符 / Method mismatch")
-
-        quality_hits = ["experiment", "result", "validation", "实验", "结果", "验证"]
-        if not any(k in fulltext_lower for k in quality_hits):
-            reasons.append("E6 - 质量不符 / Low quality")
-
-    reasons = sorted(set(reasons))
-
-    if reasons:
-        return "exclude", "; ".join(reasons)
-
-    return "include", ""
-
+    return included_list, excluded_list
 
 def main():
-    if not INPUT_PATH.exists():
-        raise FileNotFoundError(f"找不到文件: {INPUT_PATH}，请先运行 stage1_screen.py")
+    print("正在读取文献数据：", INPUT_FILE)
+    df = pd.read_csv(INPUT_FILE, encoding="utf-8-sig")
 
-    df = read_csv_auto(INPUT_PATH)
-    print(f"Stage2输入记录数: {len(df)}")
+    # 执行复筛
+    included, excluded = run_rescreen(df)
 
-    df = deduplicate_records(df)
-    print(f"Stage2去重后记录数: {len(df)}")
+    # 转DataFrame
+    df_included = pd.DataFrame(included)
+    df_excluded = pd.DataFrame(excluded)
 
-    fulltext_col = pick_column(df, ["fulltext", "全文", "FullText", "正文"])
-    language_col = pick_column(df, ["language", "Language", "语言"])
+    # 保存文件
+    df_included.to_csv(OUTPUT_INCLUDED, index=False, encoding="utf-8-sig")
+    df_excluded.to_csv(OUTPUT_EXCLUDED, index=False, encoding="utf-8-sig")
 
-    print("识别到的列名：")
-    print("fulltext_col =", fulltext_col)
-    print("language_col =", language_col)
+    # 输出结果
+    print("\n===== 复筛完成 =====")
+    print(f"✅ 保留文献：{len(df_included)} 条 → {OUTPUT_INCLUDED}")
+    print(f"❌ 剔除文献：{len(df_excluded)} 条 → {OUTPUT_EXCLUDED}")
 
-    df[["stage2_status", "stage2_reason"]] = df.apply(
-        lambda row: pd.Series(stage2_screen(row, fulltext_col, language_col)),
-        axis=1
-    )
-
-    df = deduplicate_records(df)
-    print(f"Stage2输出前去重后记录数: {len(df)}")
-
-    df.to_csv(OUTPUT_PATH, index=False, encoding="utf-8-sig")
-    print(f"Stage2完成，输出文件：{OUTPUT_PATH}")
-
+    if len(df_excluded) > 0:
+        print("\n剔除原因统计：")
+        print(df_excluded["剔除原因"].value_counts())
 
 if __name__ == "__main__":
     main()
