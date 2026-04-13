@@ -594,3 +594,48 @@
 - 建立项目参数总表；
 - 覆盖检索、字段映射、清洗、去重、筛选、合并、输出、质量控制与分析预设参数；
 - 与当前 `README.md`、`field_dictionary.md`、`clean_rules.md` 保持一致。
+
+---
+
+## 十五、共被引分析执行参数（Co-citation Analysis Parameters）
+
+### 15.1 矩阵构建参数
+* **分析单元**：被引文献（Cited Reference, CR）
+* **数据源字段**：`TI` (Citing Title) -> `CR` (Cited References)
+* **切割符**：分号 `;`（用于拆分 WoS 格式的参考文献字符串）
+* **矩阵类型**：
+    * **引用矩阵 R**：基础二值矩阵，R(i, j) = 1 表示施引文献 i 引用了被引文献 j。
+    * **共被引矩阵 C**：对称矩阵，计算公式为 C = R^T * R（矩阵 R 的转置乘以 R）。
+
+### 15.2 规模控制与数据清洗
+* **阈值过滤（Top-K）**：仅保留被引频次前 800 的高频文献进入矩阵运算（Top 800 cited papers），以保证计算性能并减少低频噪声干扰。
+* **清洗规则**：自动剔除 CR 字段中的空值（NaN）及无效引用记录。
+
+### 15.3 网络拓扑参数
+* **相似度算法**：余弦相似度（Cosine Similarity）。
+* **切边策略**：**Top-10 邻居过滤**（每个节点在导出边表前，仅保留与其最相似的前 10 个邻居节点），确保最终生成的网络拓扑结构紧凑、易于聚类。
+
+### 15.4 预期输出结果（基于代码实际输出）
+* **引用关系矩阵**：`citation_matrix_R.csv`
+* **共被引矩阵**：`cocitation_matrix_C.csv`
+* **网络边表文件**：`cocitation_network_edges.csv`（包含 source, target, weight 字段）
+
+---
+
+## 十六、共被引结果定义与验证参数（Result Definition）
+
+### 16.1 矩阵计算逻辑
+* **输入数据**：使用 `citation_matrix_R.csv` 作为计算基础。
+* **数学转换**：通过矩阵乘法（Transpose dot product）实现从“引用关系”向“共被引关系”的转换。
+* **元素含义**：
+    * 非对角线元素 C(i, j)：文献 i 与文献 j 被同时引用的频次。
+    * 对角线元素 C(i, i)：文献 i 被引用的总次数。
+
+### 16.2 结果输出标准化
+* **对角线处理**：在生成最终的 `cocitation_network_edges.csv` 时，对角线元素强制设为 0，从而消除自环（Self-loops）。
+* **对称性验证**：确保 `cocitation_matrix_C.csv` 是一个严格的对称阵（即 C[i, j] = C[j, i]）。
+* **权重定义**：输出边表的 weight 字段代表经过过滤后的共被引强度。
+
+### 16.3 存储与适配性
+* **存储路径**：所有输出文件保存于 `data/co_citation_results/` 文件夹。
+* **工具支持**：输出格式经过优化，可直接导入 Gephi、VOSviewer 或 NetworkX 进行社团发现和图谱可视化。
