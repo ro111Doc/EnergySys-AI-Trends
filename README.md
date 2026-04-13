@@ -6,6 +6,13 @@
 在分析内容上，项目围绕以下几个方面展开：一是发文趋势分析，刻画该领域的时间演化特征；二是作者、机构及合作网络分析，识别核心研究群体；三是关键词共现与演化分析，挖掘研究热点与前沿方向；四是方法层面的发展路径分析，重点关注 LSTM 及其改进模型在不同应用场景中的演进过程，包括短期负荷预测、多变量建模等典型任务。  
 通过上述分析，本项目旨在系统呈现基于 LSTM 的电力负荷预测研究的发展脉络，识别当前研究热点与潜在发展方向，为相关领域的学术研究与工程实践提供结构化、可参考的分析结果。
 
+## 检索式
+TS=(LSTM OR "long short-term memory" OR "long short term memory" OR BiLSTM OR "bidirectional LSTM" OR "attention LSTM")
+AND TS=("electric load forecasting" OR "power load forecasting" OR "load forecasting" OR "load prediction" OR "electricity demand forecasting" OR "short-term load forecasting" OR STLF)
+AND TS=("power system" OR "power systems" OR "smart grid" OR "power grid" OR "distribution network")
+AND PY=(2015-2025)
+NOT TS=("traffic flow forecasting" OR "network traffic forecasting" OR "server workload prediction" OR "CPU load prediction" OR "bridge load prediction")
+
 ## 项目进度
 本项目已完成从文献数据获取、多轮筛选、网络分析到查新报告支撑的完整流程。以下是重点输出：  
 1. 数据检索与筛选  
