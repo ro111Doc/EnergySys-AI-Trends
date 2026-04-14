@@ -154,3 +154,49 @@
 - 时间约束：2015–2025
 - 主题约束：排除交通流、网络流量、服务器负载等非电力领域
 - 分析目标：研究热点、主题演化、发展趋势
+
+**Mermaid 代码**
+
+```mermaid
+erDiagram
+    PAPER {
+        string DOI "唯一标识"
+        string TI "论文标题"
+        int PY "发表年份"
+        string AB "摘要"
+        string KW "关键词"
+        string SO "期刊名称"
+        string DT "文献类型"
+    }
+    AUTHOR {
+        string name "作者姓名"
+        string ORCID "作者编号"
+        string country "国家/地区"
+    }
+    INSTITUTION {
+        string name "机构名称"
+        string country "国家"
+        int count "发文数量"
+    }
+    KEYWORD {
+        string word "关键词文本"
+        int frequency "出现频次"
+    }
+    JOURNAL {
+        string name "期刊全称"
+        string subject "学科分类"
+    }
+    MODEL {
+        string name "模型名称"
+        string type "模型类别"
+    }
+
+    AUTHOR ||--o{ PAPER : "发表论文"
+    AUTHOR }|--|| INSTITUTION : "所属机构"
+    PAPER }|--|| JOURNAL : "发表期刊"
+    PAPER }|--o{ KEYWORD : "包含关键词"
+    PAPER ||--o{ PAPER : "引用文献"
+    AUTHOR }|--|{ AUTHOR : "合作关系"
+    KEYWORD }|--|{ KEYWORD : "共现关系"
+    PAPER }|--o{ MODEL : "使用模型"
+```
