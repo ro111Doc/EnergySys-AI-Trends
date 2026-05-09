@@ -31,7 +31,21 @@ NOT TS=("traffic flow forecasting" OR "network traffic forecasting" OR "server w
 引用矩阵构建：使用 pivot_table 将长格式引用数据转换为「施引文献 × 被引文献」的二元矩阵。  
 耦合强度计算：通过矩阵乘法 A @ A.T 得到耦合矩阵，元素值代表两篇文献共同引用的参考文献数量。  
 网络生成：将耦合矩阵转换为 networkx 图结构，映射回原始文献 ID。  
-中心性计算：实现  度中心性（Degree Centrality） 计算，输出 Top 5 中心性最高的文献，反映其在耦合网络中的连接广度。  
+中心性计算：实现  度中心性（Degree Centrality） 计算，输出 Top 5 中心性最高的文献，反映其在耦合网络中的连接广度。
+5. 计量分析产出     
+完成领域知识结构解析，输出共被引/关键词聚类可视化图谱，完成聚类质量评估与核心主题识别。    
+完成年度发文趋势、关键词突现与主题演化分析，识别领域增长阶段、突变热点及异常波动解释。     
+完成作者/机构合作网络分析，识别核心研究团队、高影响力节点与领域主要推动力量。      
+全流程参数、软件版本、阈值、聚类算法、相似度口径均记录于params.md，满足可复现检查要求，已具备综述写作所需的全部计量分析支撑材料。      
+**补充：描述性计量分析产出（已全部落地）**
+- 年度发文趋势分析：基于 `annual_publication_trend.csv/png` 明确领域发展阶段（起步/增长/成熟），为趋势演化讨论提供量化支撑；
+- 学科与主题分布：`category_distribution.csv/png` 揭示领域交叉学科特征，辅助解释知识基础图谱中的聚类形成原因；
+- 文献类型与发表阵地分析：`document_type_distribution.csv/png` 与 `top_source_distribution.csv/png` 验证数据代表性，识别核心期刊与文献类型偏好；
+- 高被引文献与里程碑支撑：`top_cited_papers.csv/png` 直接为里程碑论文清单提供数据基础，确保筛选结果的可追溯性；
+- 方法与场景演化分析：`method_frequency_distribution.csv/png` 与 `scenario_frequency_distribution.csv/png` 揭示研究方法与应用场景的热点变迁，为前沿趋势讨论提供实证依据。
+
+
+
 
 ## 成员及其分工
 组长：刘泽熙
@@ -63,9 +77,13 @@ NOT TS=("traffic flow forecasting" OR "network traffic forecasting" OR "server w
 
 ## 项目结构
 项目采用模块化结构设计，将数据、代码与文档分离，提升可维护性与可复现性：  
-data/：存放原始数据及筛选结果（CSV）  
-src/：存放筛选与数据处理脚本（如 stage1、stage2）  
-reports/：存放方法文档与分析报告  
-outputs/：存放图像结果（如 PRISMA 流程图）  
 config/：配置文件（如 query.yaml）  
-README.md：项目整体说明  
+data/：存放原始数据及筛选结果（CSV）  
+docs/：项目相关文档，如图数据模型 data_model.md等    
+outputs/：存放图像结果（如 PRISMA 流程图）   
+paper/：期末综述论文草稿与相关写作素材      
+reports/：存放方法文档与分析报告，如数据质量报告、指标规范、清洗消歧规则    
+src/：存放筛选与数据处理脚本（如 stage1、stage2）  
+LICENSE：项目开源协议说明    
+README.md：项目整体说明    
+Requirements.txt：项目依赖包清单    
