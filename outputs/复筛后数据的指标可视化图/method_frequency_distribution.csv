@@ -1,0 +1,13 @@
+﻿method,document_count
+LSTM,409
+Attention,107
+CNN-LSTM,106
+BiLSTM,101
+Decomposition,98
+GRU,60
+RNN,56
+Transformer,38
+SVR/SVM,35
+Random Forest,24
+XGBoost,24
+ARIMA,21
