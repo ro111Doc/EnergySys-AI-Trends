@@ -4,21 +4,14 @@ D:.
 │  directory_tree.txt
 │  LICENSE
 │  README.md
-│  Requirements.txt
+│  requirements.txt
 │  
-├─baseline
-│      params.md
-│      tool_selection.md
-│      
 ├─config
-│      c.txt
 │      query.yaml
-│      query2.yaml
 │      synonyms.yaml
 │      
 ├─data
 │  │  field_dictionary.md
-│  │  README2.md
 │  │  
 │  ├─processed
 │  │      excluded_final.csv
@@ -27,13 +20,10 @@ D:.
 │  │      screened_stage1.csv
 │  │      
 │  └─raw
-│          CNKI-20260327180524663.csv
 │          merged_with_citations.csv
-│          raw_data(CNKI).csv
-│          raw_data（wos).csv
+│          raw_data_0001_1000.csv
+│          raw_data_1001_1467.csv
 │          wos_literature.csv
-│          时序预测1-1000.csv
-│          时序预测1001-1467.csv
 │          
 ├─docs
 │      cleaning_rules.md
@@ -43,43 +33,36 @@ D:.
 │      query_rationale.md
 │      
 ├─outputs
-│  │  literature_screening_comparison.csv
-│  │  o.txt
-│  │  screened_final.csv
-│  │  screened_stage1.csv
-│  │  stage1_excluded_initial_screen.csv
-│  │  stage1_included_final.csv
-│  │  
-│  ├─coupling_or_collab输出
-│  │      1
-│  │      collab_coupling_network_screened.png
-│  │      作者合作网络指标_screened.csv
-│  │      双网络整体指标汇总_screened.csv
-│  │      文献耦合网络指标_screened.csv
+│  ├─01_indicators
+│  │      annual_publication_trend.csv
+│  │      annual_publication_trend.png
+│  │      category_distribution.csv
+│  │      category_distribution.png
+│  │      document_type_distribution.csv
+│  │      document_type_distribution.png
+│  │      method_frequency_distribution.csv
+│  │      method_frequency_distribution.png
+│  │      scenario_frequency_distribution.csv
+│  │      scenario_frequency_distribution.png
+│  │      top_source_distribution.csv
+│  │      top_source_distribution.png
 │  │      
-│  ├─co_citation_outputs
-│  │      1
-│  │      C_matrix.csv
+│  ├─02_networks
 │  │      filtered_matrix.csv
+│  │      network_collab_coupling_viz.png
+│  │      network_collab_metrics.csv
+│  │      network_coupling_metrics.csv
 │  │      network_edges.csv
-│  │      R_matrix.csv
 │  │      similarity_matrix.csv
 │  │      
-│  └─复筛后数据的指标可视化图
-│          annual_publication_trend.csv
-│          annual_publication_trend.png
-│          category_distribution.csv
-│          category_distribution.png
-│          document_type_distribution.csv
-│          document_type_distribution.png
-│          method_frequency_distribution.csv
-│          method_frequency_distribution.png
-│          scenario_frequency_distribution.csv
-│          scenario_frequency_distribution.png
+│  └─03_summary
+│          literature_screening_comparison.csv
+│          screened_final.csv
+│          screened_stage1.csv
+│          stage1_excluded_initial_screen.csv
+│          stage1_included_final.csv
+│          summary_overall_metrics.csv
 │          top_cited_papers.csv
-│          top_cited_papers.png
-│          top_source_distribution.csv
-│          top_source_distribution.png
 │          
 ├─paper
 │      p.txt
@@ -90,9 +73,9 @@ D:.
 │      metrics_spec.md
 │      metrics_spec_new.md
 │      novelty_search_v0.md
-│      Params.md
-│      Params_new.md
+│      PARAMS.md
 │      screening_rule.md
+│      tool_selection.md
 │      项目环境.zip
 │      
 └─src
