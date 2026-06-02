@@ -145,8 +145,6 @@ graph TD
 * **消歧处理**：在 `reports/cleaning_rules.md` 中硬编码了作者机构消歧规则（例如：统一将 `State Grid Corp China`、`State Grid Cooper` 等合并为 `State Grid Corporation of China`），防止了合作网络中由于机构名称拼写不一致导致的权威主体“长尾分散”现象。
 * **可计量度**：510 篇文献均带有完整的引文链接，为后续 `co_citation.py`（共被引）和 `coupling_or_collab.py`（文献耦合）提供了高内聚性的矩阵支撑。
 
-```
-
 ---
 
 
@@ -483,7 +481,5 @@ python src/coupling_or_collab.py --min_weight 2
 * **代码可辩护性**：所有的网络分析算法（如 NetworkX 矩阵运算、Jaccard 相似度算子）底座均由兰宏智与刘泽熙手动编写并调试通过，AI 仅用于辅助添加代码注释。
 
 本团队对本仓库所有元数据、清洗规则、算法脚本及最终导出的图谱结论承担完全的学术责任。
-
-```
 
 ---
