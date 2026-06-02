@@ -1,0 +1,110 @@
+卷 Data 的文件夹 PATH 列表
+卷序列号为 404B-2E08
+D:.
+│  directory_tree.txt
+│  LICENSE
+│  README.md
+│  Requirements.txt
+│  
+├─baseline
+│      params.md
+│      tool_selection.md
+│      
+├─config
+│      c.txt
+│      query.yaml
+│      query2.yaml
+│      synonyms.yaml
+│      
+├─data
+│  │  field_dictionary.md
+│  │  README2.md
+│  │  
+│  ├─processed
+│  │      excluded_final.csv
+│  │      included_final.csv
+│  │      screened_final.csv
+│  │      screened_stage1.csv
+│  │      
+│  └─raw
+│          CNKI-20260327180524663.csv
+│          merged_with_citations.csv
+│          raw_data(CNKI).csv
+│          raw_data（wos).csv
+│          wos_literature.csv
+│          时序预测1-1000.csv
+│          时序预测1001-1467.csv
+│          
+├─docs
+│      cleaning_rules.md
+│      data_model.md
+│      direction_candidates.md
+│      query_changelog.md
+│      query_rationale.md
+│      
+├─outputs
+│  │  literature_screening_comparison.csv
+│  │  o.txt
+│  │  screened_final.csv
+│  │  screened_stage1.csv
+│  │  stage1_excluded_initial_screen.csv
+│  │  stage1_included_final.csv
+│  │  
+│  ├─coupling_or_collab输出
+│  │      1
+│  │      collab_coupling_network_screened.png
+│  │      作者合作网络指标_screened.csv
+│  │      双网络整体指标汇总_screened.csv
+│  │      文献耦合网络指标_screened.csv
+│  │      
+│  ├─co_citation_outputs
+│  │      1
+│  │      C_matrix.csv
+│  │      filtered_matrix.csv
+│  │      network_edges.csv
+│  │      R_matrix.csv
+│  │      similarity_matrix.csv
+│  │      
+│  └─复筛后数据的指标可视化图
+│          annual_publication_trend.csv
+│          annual_publication_trend.png
+│          category_distribution.csv
+│          category_distribution.png
+│          document_type_distribution.csv
+│          document_type_distribution.png
+│          method_frequency_distribution.csv
+│          method_frequency_distribution.png
+│          scenario_frequency_distribution.csv
+│          scenario_frequency_distribution.png
+│          top_cited_papers.csv
+│          top_cited_papers.png
+│          top_source_distribution.csv
+│          top_source_distribution.png
+│          
+├─paper
+│      p.txt
+│      
+├─reports
+│      cleaning_rules.md
+│      data_quality.md
+│      metrics_spec.md
+│      metrics_spec_new.md
+│      novelty_search_v0.md
+│      Params.md
+│      Params_new.md
+│      screening_rule.md
+│      项目环境.zip
+│      
+└─src
+    │  convert_cnki1(CNKI-20260327180524663).py
+    │  convert_cnki2(wos).py
+    │  convert_cnki3(CNKI).py
+    │  co_citation.py
+    │  novelty_analyzer.py
+    │  stage1_screen.py
+    │  stage1_screen_final.py
+    │  stage2_screen.py
+    │  
+    └─networks
+            coupling_or_collab.py
+            

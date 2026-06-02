@@ -1,20 +1,8 @@
-# Params.md
+# 项目参数总览 (Project Parameters & Traceability)
 
-## 文件说明
-本文件用于集中记录本项目在**检索、字段映射、数据清洗、去重、筛选、合并与后续分析**过程中的关键参数设置。  
-其作用包括：
+> **版本说明**：本文件为项目唯一参数追踪文档，取代所有历史版本。
 
-1. 统一项目执行口径；
-2. 明确每一步操作依据；
-3. 保证后续结果可解释、可追溯、可复现；
-4. 为 `query.yaml`、`clean_rules.md`、`field_dictionary.md`、`screening_rule.md`、`data_quality.md` 提供参数层面的汇总说明。
-
-本文件不是原始检索式全文，也不是最终论文方法部分，而是整个项目的**参数总表**。
-
----
-
-## 一、项目基础参数
-
+## 一、 项目背景与范式
 ### 1.1 项目名称
 - 中文：基于 LSTM 的电力负荷预测研究热点与发展趋势——文献计量分析（2015–2025）
 - 英文：Research hotspots and development trends of LSTM in electric load forecasting: a bibliometric analysis (2015–2025)
@@ -38,659 +26,841 @@
 - WanFang
 - VIP
 
-### 1.6 文件放置位置
-- 推荐路径：`reports/Params.md`
+---
 
-说明：当前参数文件只对**已实际检索数据库**做正式记录；其他数据库仅保留扩展位，不视为当前正式数据来源。
+## 二、 工具栈与选型矩阵
+[cite_start]本组根据“工具-任务匹配”原则，构建了以下四层工具栈 [cite: 8, 16]：
+
+| 工具名 | 所在层级 | 要解决的问题 | 预期输出 | 风险点及应对 | 方案状态 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **CiteSpace (v6.x)** | GUI层 | [cite_start]共被引聚类、突现检测、关键节点识别 [cite: 10] | 聚类图谱、Burst列表 | [cite_start]参数记录依赖人工；通过本文件落盘 [cite: 11] | **主方案** |
+| **VOSviewer** | GUI层 | [cite_start]合作网络可视化、密度分布、主题演化 [cite: 11] | 合作图谱、Overlay图 | [cite_start]图美观但解释性需人工加强 [cite: 11] | **备选方案** |
+| **PyAlex / pandas** | 数据/开源层 | [cite_start]自动取数、字段映射、数据清洗与去重 [cite: 12] | 清洗后的数据集 | [cite_start]API速率限制；建立缓存机制 [cite: 12] | **主方案** |
+| **GPT Researcher** | Agent层 | [cite_start]领域术语扩展、背景调研、证据表初稿 [cite: 14] | 术语列表、综述大纲 | [cite_start]存在幻觉风险；必须人工核查证据 [cite: 15] | **备选方案** |
 
 ---
 
-## 二、检索参数（Search Parameters）
+## 三、 当前执行口径 (基于 v2.1)
 
-### 2.1 总体检索逻辑
-当前统一检索逻辑为：
+## 0. 文件元信息
 
-**方法词 AND 任务词 AND 场景词 NOT 排除词**
-
-四层含义如下：
-- 方法词：限定 LSTM 及其代表性改进模型；
-- 任务词：限定电力负荷预测任务；
-- 场景词：限定电力系统相关应用场景；
-- 排除词：剔除明显跨领域干扰项。
+| 项目 | 内容 |
+|---|---|
+| 文件名称 | `Params.md` |
+| 当前版本 | v2.1 |
+| 最近更新日期 | 2026-05-08 |
+| 维护成员 | A |
+| 当前阶段 | Lesson6 指标体系与基础可视化阶段 |
+| 当前主题 | 能源系统中的时序预测方法 |
+| 当前数据口径 | 最终筛选后的 WoS 格式数据 |
+| 当前主要输入文件 | `screened_final.csv` |
+| 当前建议存放路径 | `文档/Params.md` |
+| 当前主要输出目录 | `输出/metrics/` |
+| 当前对应脚本 | `src/metrics_visualization.py` |
 
 ---
 
-### 2.2 方法词参数（Method Terms）
+## 1. 文件说明
 
-#### 中文方法词
-- LSTM
-- 长短期记忆网络
-- 长短时记忆网络
-- 双向长短期记忆网络
-- BiLSTM
-- 注意力机制LSTM
+本文件用于集中记录本项目在以下环节中的关键参数设置：
 
-#### 英文方法词
-- LSTM
-- long short-term memory
-- long short term memory
-- BiLSTM
-- bidirectional LSTM
-- attention LSTM
+1. 研究主题与研究范围；
+2. 检索词体系；
+3. 数据源与字段映射；
+4. 数据清洗与质量控制；
+5. 指标体系；
+6. 基础可视化；
+7. 后续共被引、耦合、合作网络、突现分析与时间线分析；
+8. 版本更新与执行日志。
 
-#### 方法词参数说明
-- 当前策略以“经典 LSTM + 常见变体”为主；
-- 暂不无限扩展到所有混合模型写法，避免噪声过多；
-- 若后续正式分析发现漏检明显，可增加：
-  - hybrid LSTM
+本文件的作用包括：
+
+1. 统一项目执行口径；
+2. 明确每一步操作依据；
+3. 保证后续结果可解释、可追溯、可复现；
+4. 为 `query.yaml`、`metrics_spec.md`、`clean_rules.md`、`field_dictionary.md`、`screening_rule.md`、`data_quality.md`、`metrics_visualization.py` 提供参数层面的汇总说明。
+
+本文件不是原始检索式全文，也不是最终论文方法部分，而是整个项目的**参数总表**。
+
+---
+
+## 2. 当前项目基础参数
+
+### 2.1 当前项目名称
+
+- 中文题目：从 LSTM 到 Transformer：能源系统时序预测方法的文献计量与演化分析
+- 英文题目：From LSTM to Transformer: A Bibliometric and Evolutionary Analysis of Time-Series Forecasting Methods in Energy Systems
+
+### 2.2 项目类型
+
+| 参数 | 配置 |
+|---|---|
+| 课程类型 | 文献计量学与前沿趋势追踪课程项目 |
+| 研究范式 | 项目制、可复现研究流程 |
+| 分析类型 | 文献计量分析 + 方法演化分析 + 趋势识别 |
+| 当前任务角色 | A：指标体系、指标可视化、参数日志更新 |
+| 当前成果类型 | Markdown 文档、PNG 图表、CSV 指标表 |
+
+### 2.3 当前研究时间范围
+
+| 类型 | 时间范围 | 说明 |
+|---|---|---|
+| 计划研究窗口 | 2015–2025 | 原始设定，用于覆盖深度学习预测方法发展阶段 |
+| 当前最终数据实际范围 | 2017–2025 | 由最终筛选后的 WoS 数据 `PY` 字段决定 |
+| 是否包含 2026 | 否 | 当前最终数据不再使用旧版 2024–2026 混合数据口径 |
+| 年份字段 | `PY` | WoS 中的 Publication Year |
+
+### 2.4 当前研究主题变更
+
+原始主题为：
+
+```text
+基于 LSTM 的电力负荷预测研究热点与发展趋势
+```
+
+当前主题已扩展为：
+
+```text
+能源系统中的时序预测方法
+```
+
+主题扩展原因：
+
+1. LSTM-only 主题过窄，不利于形成长期时间演化分析；
+2. 旧数据集中年份过度集中，难以支撑 burst、timeline 和 milestone 分析；
+3. 课程要求强调趋势检测、技术演化和知识图谱叙事；
+4. 新主题能够覆盖从传统统计模型、机器学习模型、循环神经网络到 Transformer 的完整方法谱系；
+5. 新主题更适合形成“从 LSTM 到 Transformer”的技术路线叙事。
+
+---
+
+## 3. 当前目录参数
+
+当前仓库采用中文目录结构。A 阶段相关文件建议按以下路径放置：
+
+| 文件或目录 | 推荐路径 | 用途 |
+|---|---|---|
+| 参数总表 | `文档/Params.md` | 记录项目参数和更新日志 |
+| 指标规范 | `文档/metrics_spec.md` | 定义指标体系 |
+| 可视化脚本 | `src/metrics_visualization.py` | 生成指标可视化图 |
+| 最终筛选数据 | `数据/processed/screened_final.csv` | 当前主要输入数据 |
+| 指标输出目录 | `输出/metrics/` | 存放 PNG 图与 CSV 表 |
+| Lesson6 报告 | `报告/lesson6/` | 存放阶段性汇报材料 |
+| 检索配置 | `配置/query.yaml` | 记录检索式结构 |
+| 同义词配置 | `配置/synonyms.yaml` | 记录方法词与场景词扩展 |
+
+---
+
+## 4. 当前数据源参数
+
+### 4.1 当前正式数据源
+
+| 数据源 | 当前状态 | 当前用途 |
+|---|---|---|
+| Web of Science | 当前 A 阶段正式使用 | 指标可视化、被引统计、来源期刊、学科类别 |
+| CNKI | 历史阶段使用，当前不作为 A 阶段可视化主输入 | 可作为中文补充数据源 |
+| Scopus | 暂未使用 | 保留扩展位 |
+| IEEE Xplore | 暂未使用 | 保留扩展位 |
+| WanFang | 暂未使用 | 保留扩展位 |
+| VIP | 暂未使用 | 保留扩展位 |
+
+### 4.2 当前最终数据参数
+
+| 参数项 | 当前值 |
+|---|---|
+| 输入文件名 | `screened_final.csv` |
+| 数据格式 | CSV |
+| 字段体系 | WoS 导出字段 |
+| 当前记录数 | 443 |
+| 当前字段数 | 37 |
+| 当前年份范围 | 2017–2025 |
+| 当前推荐存放路径 | `数据/processed/screened_final.csv` |
+| 当前编码处理 | 自动尝试 `utf-8-sig`、`utf-8`、`gb18030`、`latin1` |
+| 当前分析脚本 | `src/metrics_visualization.py` |
+| 当前输出路径 | `输出/metrics/` |
+
+---
+
+## 5. 检索参数（Search Parameters）
+
+### 5.1 当前总体检索逻辑
+
+当前项目检索逻辑从旧版：
+
+```text
+LSTM 方法词 AND 电力负荷预测任务词 AND 电力系统场景词
+```
+
+扩展为新版：
+
+```text
+时序预测任务词 AND 能源系统场景词 AND 预测方法词
+```
+
+当前检索逻辑包含三层：
+
+1. 任务层：time-series forecasting / load forecasting / energy forecasting；
+2. 场景层：energy systems / power systems / smart grid / microgrid / renewable energy；
+3. 方法层：ARIMA / SVR / LSTM / GRU / Transformer / hybrid forecasting。
+
+### 5.2 任务词参数
+
+| 类型 | 关键词 |
+|---|---|
+| 英文任务词 | `time series forecasting` |
+| 英文任务词 | `time-series forecasting` |
+| 英文任务词 | `load forecasting` |
+| 英文任务词 | `load prediction` |
+| 英文任务词 | `electricity demand forecasting` |
+| 英文任务词 | `energy forecasting` |
+| 英文任务词 | `power forecasting` |
+| 英文任务词 | `short-term load forecasting` |
+| 英文任务词 | `ultra-short-term load forecasting` |
+| 中文任务词 | 电力负荷预测 |
+| 中文任务词 | 负荷预测 |
+| 中文任务词 | 能源预测 |
+| 中文任务词 | 电力需求预测 |
+| 中文任务词 | 短期负荷预测 |
+| 中文任务词 | 超短期负荷预测 |
+
+### 5.3 场景词参数
+
+| 类型 | 关键词 |
+|---|---|
+| 英文场景词 | `energy system` |
+| 英文场景词 | `power system` |
+| 英文场景词 | `smart grid` |
+| 英文场景词 | `microgrid` |
+| 英文场景词 | `renewable energy` |
+| 英文场景词 | `wind power` |
+| 英文场景词 | `solar power` |
+| 英文场景词 | `photovoltaic` |
+| 英文场景词 | `integrated energy system` |
+| 英文场景词 | `multi-energy system` |
+| 英文场景词 | `demand response` |
+| 英文场景词 | `building energy` |
+| 中文场景词 | 能源系统 |
+| 中文场景词 | 电力系统 |
+| 中文场景词 | 智能电网 |
+| 中文场景词 | 微电网 |
+| 中文场景词 | 新能源 |
+| 中文场景词 | 风电 |
+| 中文场景词 | 光伏 |
+| 中文场景词 | 综合能源系统 |
+| 中文场景词 | 需求响应 |
+| 中文场景词 | 建筑能源 |
+
+### 5.4 方法词参数
+
+| 方法阶段 | 代表关键词 |
+|---|---|
+| 统计预测方法 | `ARIMA`、`SARIMA` |
+| 机器学习方法 | `SVR`、`SVM`、`Random Forest`、`XGBoost` |
+| 循环神经网络 | `RNN`、`LSTM`、`GRU`、`BiLSTM` |
+| 混合模型 | `CNN-LSTM`、`Attention-LSTM`、`hybrid forecasting`、`decomposition-based forecasting` |
+| Transformer 系列 | `Transformer`、`TFT`、`Temporal Fusion Transformer`、`Informer`、`Autoformer`、`PatchTST`、`iTransformer`、`xLSTM` |
+
+### 5.5 排除词参数
+
+排除词仅用于剔除明显跨领域主题，不用于排除能源系统内部的边界主题。
+
+| 类型 | 排除词 |
+|---|---|
+| 英文 | `traffic flow forecasting` |
+| 英文 | `network traffic forecasting` |
+| 英文 | `server workload prediction` |
+| 英文 | `CPU load prediction` |
+| 英文 | `bridge load prediction` |
+| 中文 | 交通流预测 |
+| 中文 | 网络流量预测 |
+| 中文 | 服务器负载预测 |
+| 中文 | CPU 负载预测 |
+| 中文 | 桥梁荷载预测 |
+
+排除原则：
+
+1. 排除词要少而准；
+2. 不直接排除 `microgrid`、`building energy`、`integrated energy systems` 等能源系统边界主题；
+3. 对边界主题优先交给筛选规则处理。
+
+---
+
+## 6. 字段映射参数（Field Mapping Parameters）
+
+### 6.1 当前 WoS 字段映射
+
+当前 A 阶段以 WoS 字段为主，不再使用旧版中文字段进行指标可视化。
+
+| 分析用途 | WoS 字段 | 字段含义 | 当前用途 |
+|---|---|---|---|
+| 年份分析 | `PY` | Publication Year | 年发文趋势 |
+| 标题分析 | `TI` | Title | 高被引文献标题、方法词匹配 |
+| 来源分析 | `SO` | Source Title | 来源期刊分布 |
+| 文献类型分析 | `DT` | Document Type | 文献类型分布 |
+| 摘要分析 | `AB` | Abstract | 方法词、场景词匹配 |
+| 作者缩写 | `AU` | Authors | 后续作者分析 |
+| 作者全名 | `AF` | Author Full Name | 后续作者合作网络 |
+| DOI | `DI` | DOI | DOI 完整率统计 |
+| 被引次数 | `TC` | Times Cited | 高被引文献排序 |
+| 学科类别 | `SC` | Subject Category | 学科类别分布 |
+| 参考文献 | `CR` | Cited References | 后续共被引分析 |
+| 唯一标识 | `UT` | Unique WOS ID | 去重与溯源 |
+| 关键词 | `DE` / `ID` | Author Keywords / Keywords Plus | 方法频次和主题分析 |
+
+### 6.2 中文旧字段与当前字段对应关系
+
+| 旧字段口径 | 当前字段口径 | 说明 |
+|---|---|---|
+| `年份` | `PY` | 当前数据采用 WoS 年份字段 |
+| `题名` | `TI` | 当前数据采用 WoS 标题字段 |
+| `文献来源` / `来源库` | `SO` | 当前用于来源期刊统计 |
+| `文献类型` | `DT` | 当前用于文献类型统计 |
+| `摘要` | `AB` | 当前用于文本匹配 |
+| `DOI` | `DI` | 当前用于 DOI 完整率 |
+| `被引次数` | `TC` | 当前用于高被引排序 |
+| `学科类别` | `SC` | 当前用于学科类别分布 |
+
+---
+
+## 7. 数据清洗参数（Cleaning Parameters）
+
+### 7.1 通用清洗参数
+
+| 参数项 | 当前设置 |
+|---|---|
+| 删除首尾空格 | 是 |
+| 删除字段名前后空格 | 是 |
+| DOI 大小写统一 | 建议统一为小写 |
+| 原始字段保留 | 是 |
+| 缺失值处理 | 统计时使用 `fillna("Unknown")` 或跳过 |
+| 年份处理 | `PY` 转为整数 |
+| 文本字段合并 | `TI` + `AB` + `DE` + `ID` |
+| 编码输出 | `utf-8-sig` |
+| Excel 兼容 | 是 |
+
+### 7.2 当前脚本字段识别逻辑
+
+脚本优先识别以下字段：
+
+| 用途 | 字段优先级 |
+|---|---|
+| 年份 | `PY` → `年份` → `Year` |
+| 标题 | `TI` → `题名` → `Title` |
+| 来源 | `SO` → `文献来源` → `Source Title` |
+| 文献类型 | `DT` → `文献类型` → `Document Type` |
+| DOI | `DI` → `DOI` |
+| 摘要 | `AB` → `摘要` → `Abstract` |
+| 作者 | `AU` → `AF` → `作者` |
+| 学科类别 | `SC` → `WC` → `学科类别` |
+| 被引次数 | `TC` → `被引频次` → `Citations` |
+
+---
+
+## 8. 筛选参数（Screening Parameters）
+
+### 8.1 当前筛选状态
+
+| 参数 | 当前值 |
+|---|---|
+| 当前阶段 | 已完成最终筛选 |
+| 当前使用文件 | `screened_final.csv` |
+| 当前可视化数据 | 最终筛选后的 WoS 格式数据 |
+| 旧版筛选数据 | 不再作为 A 阶段可视化主输入 |
+| 当前筛选目标 | 支撑能源系统时序预测方法演化分析 |
+
+### 8.2 当前纳入原则
+
+文献原则上需满足以下条件：
+
+1. 研究对象属于能源系统、电力系统、智能电网、微电网、新能源、综合能源或相关场景；
+2. 研究任务涉及预测，尤其是时序预测、负荷预测、需求预测、发电预测或能源预测；
+3. 研究方法涉及统计模型、机器学习、深度学习、混合模型或 Transformer 系列方法；
+4. 文献能够为方法演化、场景扩展或前沿趋势提供证据。
+
+### 8.3 当前排除原则
+
+优先排除以下文献：
+
+1. 交通流预测、网络流量预测、服务器负载预测等非能源系统预测；
+2. 仅讨论优化调度但不包含预测任务的文献；
+3. 仅讨论控制、规划、市场交易但预测不是主要模块的文献；
+4. 缺少基本文献信息且无法进入统计分析的文献；
+5. 与能源系统时序预测无直接关系的交叉噪声文献。
+
+---
+
+## 9. 指标体系参数（Metric Parameters）
+
+### 9.1 数据规模指标
+
+| 指标 | 字段 | 用途 |
+|---|---|---|
+| 总记录数 | 全表行数 | 描述最终语料规模 |
+| 字段数量 | 全表列数 | 描述元数据完整度 |
+| 最早年份 | `PY` | 判断研究起点 |
+| 最新年份 | `PY` | 判断前沿覆盖 |
+| DOI 完整率 | `DI` | 判断唯一标识完整性 |
+| 摘要完整率 | `AB` | 判断文本分析可用性 |
+| 标题完整率 | `TI` | 判断基础信息完整性 |
+| 作者完整率 | `AU` / `AF` | 判断合作分析可用性 |
+
+### 9.2 时间趋势指标
+
+| 指标 | 字段 | 输出 |
+|---|---|---|
+| 年发文量 | `PY` | `annual_publication_trend.png` |
+| 年发文量数据 | `PY` | `annual_publication_trend.csv` |
+
+### 9.3 文献结构指标
+
+| 指标 | 字段 | 输出 |
+|---|---|---|
+| 文献类型分布 | `DT` | `document_type_distribution.png` |
+| 来源期刊 Top15 | `SO` | `top_source_distribution.png` |
+| 学科类别 Top15 | `SC` | `category_distribution.png` |
+
+### 9.4 引用影响指标
+
+| 指标 | 字段 | 输出 |
+|---|---|---|
+| 高被引文献 Top20 | `TI` + `TC` | `top_cited_papers.png` |
+| 高被引文献数据表 | `TI` + `TC` | `top_cited_papers.csv` |
+
+说明：高被引文献只是 milestone 候选池，不等于最终 milestone 文献。
+
+### 9.5 方法演化指标
+
+当前方法频次统计基于 `TI`、`AB`、`DE`、`ID` 字段的规则匹配。
+
+| 方法类别 | 匹配词 |
+|---|---|
+| ARIMA | `ARIMA`、`SARIMA` |
+| SVR / SVM | `SVR`、`SVM`、`support vector` |
+| Random Forest | `random forest` |
+| XGBoost | `XGBoost`、`extreme gradient` |
+| RNN | `RNN`、`recurrent neural` |
+| LSTM | `LSTM`、`long short-term memory`、`long short term memory` |
+| GRU | `GRU`、`gated recurrent` |
+| BiLSTM | `BiLSTM`、`bidirectional LSTM` |
+| CNN-LSTM | `CNN-LSTM`、`CNN LSTM`、`convolutional LSTM` |
+| Attention | `attention` |
+| Transformer | `transformer`、`TFT`、`temporal fusion transformer`、`Informer`、`Autoformer`、`PatchTST`、`iTransformer` |
+| Decomposition | `VMD`、`EMD`、`EEMD`、`CEEMDAN`、`decomposition` |
+
+### 9.6 应用场景指标
+
+当前应用场景频次统计基于 `TI`、`AB`、`DE`、`ID` 字段的规则匹配。
+
+| 场景类别 | 匹配词 |
+|---|---|
+| Smart Grid | `smart grid` |
+| Microgrid | `microgrid`、`micro-grid` |
+| Renewable Energy | `renewable`、`wind power`、`solar`、`photovoltaic`、`PV` |
+| Integrated Energy Systems | `integrated energy`、`multi-energy` |
+| Demand Response | `demand response` |
+| Electricity Load | `electricity load`、`load forecasting`、`power load` |
+| Energy Demand | `energy demand`、`demand forecasting` |
+| Building Energy | `building`、`building energy` |
+
+---
+
+## 10. 可视化参数（Visualization Parameters）
+
+### 10.1 当前脚本参数
+
+| 参数项 | 当前设置 |
+|---|---|
+| 脚本名称 | `metrics_visualization.py` |
+| 推荐路径 | `src/metrics_visualization.py` |
+| 数据处理库 | `pandas` |
+| 绘图库 | `matplotlib` |
+| 图像分辨率 | 300 dpi |
+| 输出格式 | PNG + CSV |
+| 输出目录 | `输出/metrics/` |
+| 图形风格 | 白底学术风 |
+| 坐标轴语言 | 英文为主 |
+| 中文说明 | 在报告和 README 中补充 |
+| 文件编码 | `utf-8-sig` |
+| Top 来源数量 | 15 |
+| Top 高被引文献数量 | 20 |
+
+### 10.2 当前已生成图表
+
+| 序号 | 英文文件名 | 中文名称 | 文件类型 | 用途 |
+|---|---|---|---|---|
+| 1 | `annual_publication_trend.png` | 年发文趋势图 | PNG | 展示 2017–2025 年发文变化 |
+| 2 | `annual_publication_trend.csv` | 年发文趋势数据表 | CSV | 记录每年发文数量 |
+| 3 | `document_type_distribution.png` | 文献类型分布图 | PNG | 展示 Article、Review 等类型结构 |
+| 4 | `document_type_distribution.csv` | 文献类型分布数据表 | CSV | 记录不同文献类型数量 |
+| 5 | `top_source_distribution.png` | 来源期刊 Top15 分布图 | PNG | 展示高产来源期刊 |
+| 6 | `top_source_distribution.csv` | 来源期刊 Top15 数据表 | CSV | 记录来源期刊发文数量 |
+| 7 | `top_cited_papers.png` | 高被引文献 Top20 分布图 | PNG | 展示高被引文献候选 |
+| 8 | `top_cited_papers.csv` | 高被引文献 Top20 数据表 | CSV | 记录文献标题与被引次数 |
+| 9 | `method_frequency_distribution.png` | 方法频次分布图 | PNG | 展示主要预测方法出现频次 |
+| 10 | `method_frequency_distribution.csv` | 方法频次分布数据表 | CSV | 记录各方法文献数量 |
+| 11 | `scenario_frequency_distribution.png` | 应用场景频次分布图 | PNG | 展示主要能源应用场景 |
+| 12 | `scenario_frequency_distribution.csv` | 应用场景频次分布数据表 | CSV | 记录场景文献数量 |
+| 13 | `category_distribution.png` | 学科类别 Top15 分布图 | PNG | 展示 WoS 学科类别分布 |
+| 14 | `category_distribution.csv` | 学科类别 Top15 数据表 | CSV | 记录学科类别频次 |
+| 15 | `metrics_summary.csv` | 指标汇总表 | CSV | 记录数据量、字段识别、完整率等 |
+| 16 | `README_metrics_outputs.md` | 指标可视化结果说明文档 | Markdown | 说明输出文件与字段映射 |
+
+---
+
+## 11. 质量控制参数（Quality Control Parameters）
+
+### 11.1 当前基础质量检查项
+
+| 检查项 | 字段 | 当前处理方式 |
+|---|---|---|
+| 题名是否缺失 | `TI` | 计算完整率 |
+| 作者是否缺失 | `AU` / `AF` | 计算完整率 |
+| 摘要是否缺失 | `AB` | 计算完整率 |
+| DOI 是否缺失 | `DI` | 计算完整率 |
+| 年份是否缺失 | `PY` | 缺失则不参与年趋势统计 |
+| 被引次数是否缺失 | `TC` | 缺失按 0 或跳过处理 |
+| 来源期刊是否缺失 | `SO` | 缺失填为 `Unknown` |
+| 文献类型是否缺失 | `DT` | 缺失填为 `Unknown` |
+| 学科类别是否缺失 | `SC` | 缺失则跳过类别统计 |
+
+### 11.2 当前验证结果
+
+| 验证项 | 结果 | 说明 |
+|---|---|---|
+| CSV 读取 | 通过 | 文件可被 pandas 正常读取 |
+| 字段识别 | 通过 | 成功识别 `PY`、`TI`、`SO`、`DT`、`AB`、`TC`、`SC` |
+| 年份范围 | 通过 | 覆盖 2017–2025 |
+| PNG 输出 | 通过 | 已生成 7 张 PNG 图 |
+| CSV 输出 | 通过 | 每张图均有对应 CSV 表 |
+| 汇总表输出 | 通过 | 已生成 `metrics_summary.csv` |
+| 说明文档输出 | 通过 | 已生成 `README_metrics_outputs.md` |
+| 主题一致性 | 通过 | 已由 LSTM-only 更新为能源系统时序预测方法 |
+
+---
+
+## 12. 后续分析参数（Analysis Parameters）
+
+### 12.1 共被引分析参数
+
+当前状态：待基于新 WoS 最终数据重跑。
+
+| 参数 | 当前建议 |
+|---|---|
+| 分析单元 | Cited Reference |
+| 依赖字段 | `CR` |
+| 推荐工具 | CiteSpace / Python |
+| 推荐时间切片 | 1 年 |
+| 时间范围 | 2017–2025 |
+| 节点类型 | Reference |
+| 重点输出 | 共被引网络图、聚类标签、Modularity Q、Silhouette |
+| 用途 | 识别知识基础与 milestone 候选文献 |
+
+说明：旧版基于 `citing_paper` → `cited_paper` 的共被引参数保留为历史记录，但当前正式分析应优先使用 WoS `CR` 字段。
+
+### 12.2 突现分析参数
+
+当前状态：待执行。
+
+| 参数 | 当前建议 |
+|---|---|
+| 分析对象 | Keywords / References |
+| 依赖字段 | `DE`、`ID`、`CR` |
+| 推荐工具 | CiteSpace |
+| 时间范围 | 2017–2025 |
+| 输出指标 | burst strength、begin year、end year |
+| 用途 | 识别快速升温的方法与主题 |
+
+### 12.3 时间线分析参数
+
+当前状态：待执行。
+
+| 参数 | 当前建议 |
+|---|---|
+| 分析对象 | Keywords / References |
+| 推荐工具 | CiteSpace Timeline View |
+| 时间切片 | 1 年 |
+| 时间范围 | 2017–2025 |
+| 用途 | 解释方法从 LSTM、混合模型到 Transformer 的演化过程 |
+
+### 12.4 作者合作网络参数
+
+当前状态：待基于新 WoS 数据重跑。
+
+| 参数 | 当前建议 |
+|---|---|
+| 依赖字段 | `AU` / `AF` |
+| 分析单元 | Author |
+| 推荐工具 | VOSviewer / CiteSpace / Python |
+| 节点筛选 | 可设置发文量 ≥ 2 |
+| 用途 | 识别核心作者与合作团队 |
+
+### 12.5 机构合作网络参数
+
+当前状态：待基于新 WoS 数据重跑。
+
+| 参数 | 当前建议 |
+|---|---|
+| 依赖字段 | `C1` / `C3` |
+| 分析单元 | Institution |
+| 推荐工具 | VOSviewer / CiteSpace |
+| 用途 | 识别核心机构和区域合作格局 |
+
+---
+
+## 13. 当前风险与注意事项
+
+1. 当前指标图属于描述性统计，不能替代正式知识图谱。
+2. 方法频次和场景频次基于字符串匹配，存在漏检和误检风险。
+3. 高被引文献 Top20 只是 milestone 候选，不等于最终 milestone。
+4. 共被引、突现、时间线、合作网络仍需基于新数据重跑。
+5. 如果后续将英文输出文件名改为中文，需要同步修改脚本和 README。
+6. 旧版 LSTM-only 参数仅作为历史记录保留，不应再作为主分析依据。
+7. 如果后续合并 CNKI 数据，需要重新检查字段映射和去重策略。
+8. 如果新增数据库，必须更新本文件的数据源参数、字段映射和筛选口径。
+
+---
+
+## 14. 版本管理参数（Versioning Parameters）
+
+### 14.1 当前版本
+
+| 项目 | 内容 |
+|---|---|
+| 当前版本 | v2.1 |
+| 状态 | 当前生效 |
+| 维护成员 | A |
+| 更新日期 | 2026-05-08 |
+| 当前任务 | Lesson6 指标可视化与参数日志更新 |
+
+### 14.2 更新触发条件
+
+以下情况必须更新本文件：
+
+1. 研究主题发生变化；
+2. 检索式结构发生变化；
+3. 数据源发生变化；
+4. 最终筛选数据发生变化；
+5. 字段名或字段映射发生变化；
+6. 输入路径发生变化；
+7. 输出路径发生变化；
+8. 新增或删除指标；
+9. 新增图表输出；
+10. CiteSpace / VOSviewer / Python 分析参数发生变化；
+11. 共被引、突现、时间线、合作网络等核心图谱重跑；
+12. 组内成员完成新的阶段性结果。
+
+### 14.3 联动更新文件
+
+| 文件 | 是否必须检查 | 检查内容 |
+|---|---|---|
+| `README.md` | 是 | 项目主题、目录结构、运行命令是否同步 |
+| `配置/query.yaml` | 是 | 检索式是否与当前主题一致 |
+| `文档/metrics_spec.md` | 是 | 指标定义是否与参数文件一致 |
+| `文档/screening_rule.md` | 是 | 纳入/排除标准是否跟随新选题变化 |
+| `文档/field_dictionary.md` | 是 | 字段映射是否匹配 WoS 字段 |
+| `文档/data_quality.md` | 是 | 数据质量统计是否基于最新数据 |
+| `src/metrics_visualization.py` | 是 | 输入路径、字段名、输出目录是否正确 |
+| `输出/metrics/` | 是 | 图表和 CSV 是否已经生成 |
+| `报告/lesson6/` | 建议 | 阶段性报告是否引用最新图表 |
+
+---
+
+## 15. 版本记录与执行日志（Version Log）
+
+### v0.1：项目参数总表初建
+
+- 更新时间：早期项目阶段
+- 更新成员：项目组
+- 主题口径：基于 LSTM 的电力负荷预测
+- 主要内容：
+  1. 建立项目参数总表；
+  2. 记录 CNKI 与 WoS 的基础检索参数；
+  3. 记录字段映射、清洗、去重、筛选、合并等参数；
+  4. 建立初步数据质量控制阈值；
+  5. 预留共被引、作者合作、机构分析等后续分析入口。
+
+- 局限：
+  1. 版本记录过于简略；
+  2. 未记录实际输入文件；
+  3. 未记录脚本路径；
+  4. 未记录输出文件；
+  5. 未反映后续选题扩展；
+  6. 与当前最终筛选数据字段不完全匹配。
+
+### v1.0：LSTM 电力负荷预测阶段参数版本
+
+- 更新时间：LSTM-only 选题阶段
+- 主题口径：
+
+```text
+基于 LSTM 的电力负荷预测研究热点与发展趋势
+```
+
+- 时间窗口：
+
+```text
+2015–2025
+```
+
+- 方法词重点：
+  - LSTM
+  - BiLSTM
+  - Attention-LSTM
   - CNN-LSTM
-  - GRU-LSTM
-  - encoder-decoder LSTM
+
+- 任务词重点：
+  - 电力负荷预测
+  - load forecasting
+  - short-term load forecasting
+  - electricity demand forecasting
+
+- 场景词重点：
+  - power system
+  - smart grid
+  - distribution network
+
+- 主要贡献：
+  1. 明确了初始研究方向；
+  2. 建立了方法词、任务词、场景词、排除词四层检索逻辑；
+  3. 为初步筛选和数据质量检查提供了参数基础。
+
+- 发现的问题：
+  1. 数据时间跨度不足；
+  2. 方法范围过窄；
+  3. 检索结果容易集中于近年 LSTM 变体；
+  4. 不利于形成清晰的 timeline 演化分析；
+  5. 不利于识别从传统模型到深度模型再到 Transformer 的技术路线。
+
+### v2.0：研究主题扩展版本
+
+- 更新时间：选题重构阶段
+- 触发原因：
+
+原始 LSTM-only 选题无法充分支撑课程要求中的：
+
+1. 趋势检测；
+2. 主题演化；
+3. milestone 文献识别；
+4. 方法谱系分析；
+5. 从图谱到技术叙事的转换。
+
+- 主题由：
+
+```text
+基于 LSTM 的电力负荷预测
+```
+
+扩展为：
+
+```text
+能源系统中的时序预测方法
+```
+
+- 方法范围扩展为：
+
+| 方法阶段 | 代表方法 |
+|---|---|
+| 统计预测方法 | ARIMA、SARIMA |
+| 机器学习方法 | SVR、Random Forest、XGBoost |
+| 循环神经网络方法 | RNN、LSTM、GRU、BiLSTM |
+| 混合深度学习方法 | CNN-LSTM、Attention-LSTM、decomposition-based models |
+| Transformer 系列方法 | TFT、Informer、Autoformer、PatchTST、iTransformer、xLSTM |
+
+- 本次更新结果：
+  1. 研究主题具备更长时间跨度；
+  2. 方法演化路径更完整；
+  3. 后续可形成“从 LSTM 到 Transformer”的技术叙事；
+  4. 与课程对趋势分析、突现分析和知识图谱叙事的要求更匹配。
+
+### v2.1：Lesson6 指标可视化参数更新版本
+
+- 更新时间：2026-05-08
+- 更新成员：A
+- 当前任务：生成指标可视化图，并更新参数日志
+- 当前数据：最终筛选后的 WoS 格式数据
+- 当前数据规模：443 条记录
+- 当前字段数量：37 个字段
+- 当前实际年份范围：2017–2025
+- 当前字段体系：WoS 字段体系
+
+#### v2.1.1 输入数据记录
+
+| 项目 | 内容 |
+|---|---|
+| 输入文件 | `screened_final.csv` |
+| 推荐路径 | `数据/processed/screened_final.csv` |
+| 记录数 | 443 |
+| 字段数 | 37 |
+| 年份字段 | `PY` |
+| 题名字段 | `TI` |
+| 来源字段 | `SO` |
+| 文献类型字段 | `DT` |
+| 摘要字段 | `AB` |
+| 被引次数字段 | `TC` |
+| 学科类别字段 | `SC` |
+
+#### v2.1.2 本次实际产出
+
+本次已生成：
+
+1. 年发文趋势图；
+2. 文献类型分布图；
+3. 来源期刊 Top15 分布图；
+4. 高被引文献 Top20 分布图；
+5. 方法频次分布图；
+6. 应用场景频次分布图；
+7. 学科类别 Top15 分布图；
+8. 指标汇总表；
+9. 指标可视化结果说明文档。
+
+#### v2.1.3 本次更新的验证记录
+
+| 验证项 | 验证结果 | 说明 |
+|---|---|---|
+| CSV 可读取 | 通过 | 文件可被 pandas 正常读取 |
+| 字段识别 | 通过 | 成功识别 `PY`、`TI`、`SO`、`DT`、`AB`、`TC`、`SC` 等字段 |
+| 年份范围 | 通过 | 实际覆盖 2017–2025 |
+| 图表输出 | 通过 | 已生成 7 张 PNG 图 |
+| CSV 输出 | 通过 | 每张图均配套 CSV 数据表 |
+| 指标汇总 | 通过 | 已生成 `metrics_summary.csv` |
+| 结果说明 | 通过 | 已生成 `README_metrics_outputs.md` |
+| 与当前主题一致性 | 通过 | 指标已从 LSTM-only 扩展为时序预测方法谱系 |
 
 ---
 
-### 2.3 任务词参数（Task Terms）
+## 16. 后续更新计划
 
-#### 中文任务词
-- 电力负荷预测
-- 负荷预测
-- 短期负荷预测
-- 电力需求预测
+### 16.1 C / D 成员完成图谱分析后需要补充
 
-#### 英文任务词
-- load forecasting
-- load prediction
-- electric load forecasting
-- power load forecasting
-- electricity demand forecasting
-- short-term load forecasting
-- STLF
+后续如果 C / D 成员完成以下任务，需要继续更新本文件：
 
-#### 任务词参数说明
-- 当前任务词偏向“负荷预测”主任务；
-- 暂不主动把“功率预测”“能耗预测”“电价预测”纳入主任务；
-- 若某文献为“综合能源系统”但其中负荷预测只是附带模块，则倾向排除。
+1. CiteSpace 共被引网络；
+2. CiteSpace 关键词聚类；
+3. CiteSpace burst detection；
+4. CiteSpace timeline view；
+5. VOSviewer 合作网络；
+6. milestone 文献候选表；
+7. 结构变异分析；
+8. 最终 3 图 1 表解释文字。
 
----
+### 16.2 下一版建议版本号
 
-### 2.4 场景词参数（Context Terms）
-
-#### 中文场景词
-- 电力系统
-- 智能电网
-- 电网
-- 配电网
-
-#### 英文场景词
-- power system
-- power systems
-- smart grid
-- power grid
-- distribution network
-
-#### 场景词参数说明
-- 当前场景词用于提高精确率；
-- 场景词不应扩展得过于宽泛，否则会混入建筑能耗、医院能源系统、家庭能源管理等边缘主题；
-- 若检索结果明显过少，可适度放宽场景限制。
+| 触发事件 | 建议版本号 |
+|---|---|
+| 新增 CiteSpace 共被引和关键词聚类参数 | v2.2 |
+| 新增 burst 和 timeline 参数 | v2.3 |
+| 新增 milestone 表参数 | v2.4 |
+| 形成 M2 提交版 3 图 1 表 | v3.0 |
 
 ---
 
-### 2.5 排除词参数（Exclusion Terms）
+## 17. 使用说明
 
-#### 中文排除词
-- 交通流预测
-- 网络流量预测
-- 服务器负载预测
-- CPU负载预测
-- 桥梁荷载预测
+使用本文件时，建议按以下顺序阅读：
 
-#### 英文排除词
-- traffic flow forecasting
-- network traffic forecasting
-- server workload prediction
-- CPU load prediction
-- bridge load prediction
+1. 先看第 2–4 节，确认项目主题、目录和数据源；
+2. 再看第 5–8 节，确认检索、字段、清洗和筛选口径；
+3. 然后看第 9–11 节，确认指标、图表和质量控制参数；
+4. 最后看第 14–16 节，确认版本记录和后续更新计划。
 
-#### 排除词参数说明
-- 当前排除词只用于排除明显跨领域文献；
-- 不对“微电网”“综合能源系统”“建筑负荷”等边界主题直接使用排除词，而是放到筛选阶段处理；
-- 原则：**排除词要少而准**。
-
----
-
-### 2.6 时间参数
-- 年份范围：2015–2025
-- CNKI 执行方式：年份筛选 / 专业检索时间字段
-- WoS 执行方式：`PY=(2015-2025)` 或等价年份过滤
-
-#### 时间参数说明
-- 2015–2025 是当前正式研究窗口；
-- 若出现 2025 年 Early Access 文献，可保留，但需在年份与正式发表状态上单独标记。
-
----
-
-### 2.7 检索字段参数
-
-#### CNKI
-- 当前优先字段：`TKA`
-- 含义：篇名 + 关键词 + 摘要（篇关摘）
-
-#### WoS
-- 当前优先字段：`TS`
-- 含义：主题检索（标题、摘要、关键词等相关字段）
-
-#### 检索字段参数说明
-- CNKI 当前主策略为 `TKA`，兼顾召回与精确；
-- WoS 当前主策略为 `TS`，适合形成英文主题检索集合；
-- 当前不以题名限定为主，否则会漏掉大量相关文献。
-
----
-
-### 2.8 当前检索版本参数
-- 当前记录版本：V0.2
-- 版本状态：已执行
-- 已记录位置：
-  - `config/query.yaml`
-  - `reports/query_changelog.md`
-  - `reports/query_rationale.md`
-
----
-
-## 三、数据源参数（Database Parameters）
-
-### 3.1 CNKI 参数
-- 数据源名称：CNKI
-- 当前记录类型：
-  - 期刊
-  - 硕士
-  - 外文期刊
-  - 会议（若后续出现）
-- 当前导出字段：
-  - `SrcDatabase-来源库`
-  - `Title-题名`
-  - `Author-作者`
-  - `Organ-单位`
-  - `Source-文献来源`
-  - `Summary-摘要`
-  - `PubTime-发表时间`
-  - `Year-年`
-  - `Fund-基金`（部分）
-  - `DOI-DOI`（部分）
-
-#### CNKI 参数说明
-- 当前 CNKI 是中文检索主来源；
-- 部分结果中混有“外文期刊”记录，但仍按 CNKI 数据源处理；
-- 摘要字段已较前期版本更完整，适合进入初筛阶段。
-
----
-
-### 3.2 WoS 参数
-- 数据源名称：Web of Science
-- 当前主要标签字段：
-  - `PT`
-  - `AU`
-  - `AF`
-  - `TI`
-  - `SO`
-  - `DT`
-  - `AB`
-  - `C1`
-  - `C3`
-  - `RP`
-  - `EM`
-  - `FU`
-  - `FX`
-  - `CR`
-  - `TC`
-  - `Z9`
-  - `PY`
-  - `DI`
-  - `UT`
-  - `DA`
-
-#### WoS 参数说明
-- WoS 当前是英文检索主来源；
-- `UT` 为唯一标识，必须保留；
-- `CR`、`TC`、`DI` 是 WoS 相对高价值字段；
-- `AB` 和 `TI` 为初筛核心字段。
-
----
-
-## 四、字段映射参数（Field Mapping Parameters）
-
-### 4.1 统一字段体系
-后续统一表建议映射为以下字段：
-
-- `database`
-- `source_type`
-- `title`
-- `authors`
-- `authors_full`
-- `affiliations`
-- `source`
-- `document_type`
-- `abstract`
-- `year`
-- `pub_time`
-- `fund`
-- `doi`
-- `references`
-- `cited_times`
-- `unique_id`
-- `language`
-- `source_file`
-- `keep`
-- `exclude_reason`
-- `note`
-- `screen_stage`
-
----
-
-### 4.2 CNKI 映射参数
-- `SrcDatabase-来源库` → `source_type`
-- `Title-题名` → `title`
-- `Author-作者` → `authors`
-- `Organ-单位` → `affiliations`
-- `Source-文献来源` → `source`
-- `Summary-摘要` → `abstract`
-- `PubTime-发表时间` → `pub_time`
-- `Year-年` → `year`
-- `Fund-基金` → `fund`
-- `DOI-DOI` → `doi`
-
----
-
-### 4.3 WoS 映射参数
-- `AU` → `authors`
-- `AF` → `authors_full`
-- `TI` → `title`
-- `SO` → `source`
-- `DT` → `document_type`
-- `AB` → `abstract`
-- `C1` → `affiliations`
-- `C3` → `organizations`
-- `FU` → `fund`
-- `CR` → `references`
-- `TC` → `cited_times`
-- `PY` → `year`
-- `DI` → `doi`
-- `UT` → `unique_id`
-
----
-
-## 五、文本清洗参数（Cleaning Parameters）
-
-### 5.1 通用清洗参数
-- 删除首尾空格：是
-- 删除连续空格：是
-- 保留原始大小写：是
-- DOI 大小写统一：建议统一为小写
-- 空值填充：不强制填充，保留空白
-- 作者分隔符标准化：统一使用分号 `;`
-- 原始字段保留：是
-
----
-
-### 5.2 CNKI 清洗参数
-- 来源库简写：
-  - 外文期刊 → 英刊
-  - 期刊 → 期刊
-  - 硕士 → 硕论
-  - 博士 → 博论
-  - 会议 → 会议
-- 年份来源优先级：
-  1. `Year`
-  2. `PubTime` 提取
-- 单位字段处理：先整体保留，不拆分
-- 题名清洗：仅做空格与符号规范，不改词义
-
----
-
-### 5.3 WoS 清洗参数
-- 必保留 `UT`：是
-- 必保留 `CR`：是
-- 作者优先字段：
-  1. `AF`
-  2. `AU`
-- 机构优先字段：
-  1. `C3`（若需机构标准化）
-  2. `C1`
-- 被引优先保留：
-  - `TC`
-  - `Z9`、
-## 六、去重参数（Deduplication Parameters）
-
-### 6.1 去重优先级
-1. `doi` 完全一致
-2. `title + year` 高一致
-3. 标题仅有大小写、空格、标点差异
-4. 相同 `UT`（WoS 内部）
-
-### 6.2 重复保留规则
-若同一文献在多个数据库重复出现：
-1. 优先保留字段更完整版本；
-2. 若 WoS 版本含 `UT`、`CR`、`TC`，通常优先保留 WoS；
-3. 若 CNKI 摘要更完整，可将摘要补入统一表，但需保留来源记录；
-4. 原始数据源字段不得删除。
-
-### 6.3 不视为重复的情况
-- 学位论文与后续期刊论文
-- 会议版与正式发表版
-- 同主题但 DOI、标题、作者不同的改进研究
-
----
-
-## 七、筛选参数（Screening Parameters）
-
-### 7.1 当前筛选阶段
-- 当前阶段：初筛前 / 初筛准备阶段
-- 当前判断依据：题名 + 摘要 + 来源字段
-
-### 7.2 纳入参数
-文献原则上需同时满足：
-1. 主题核心为电力负荷预测或电力需求预测；
-2. 方法核心明确涉及 LSTM 或其变体；
-3. 场景属于电力系统、电网、智能电网、配电网等；
-4. 可为后续热点分析或方法演化分析提供有效证据。
-
-### 7.3 排除参数
-初筛阶段优先排除：
-1. 交通流、网络流量、服务器负载等跨领域文献；
-2. 仅附带预测模块，但主体并非电力负荷预测的文献；
-3. 以调度优化、需求响应、建筑能耗管理、医院能源管理、P2P 家庭能源交易为主，且负荷预测不是研究核心的文献；
-4. 主题严重偏离电力系统语境的文献。
-
-### 7.4 边界文献参数
-对于边界样本：
-- `keep = maybe`
-- `exclude_reason = 边界文献`
-- `note = 待二次人工判断`
-
-### 7.5 建议新增筛选字段
-- `keep`
-- `exclude_reason`
-- `note`
-- `screen_stage`
-- `database`
-- `source_file`
-
----
-
-## 八、数据合并参数（Merge Parameters）
-
-### 8.1 合并前提
-只有在满足以下条件时，才允许合并 CNKI 与 WoS：
-1. 两库已分别完成基础清洗；
-2. 已完成字段映射；
-3. 已完成初步去重；
-4. 已增加 `database` 与 `source_file` 字段。
-
-### 8.2 合并策略
-- 合并方式：纵向拼接
-- 合并主键：优先使用 `doi`
-- 辅助比对键：
-  - `title`
-  - `year`
-  - `authors`
-
-### 8.3 合并后要求
-- 保留来源标识：必须
-- 保留原始数据源信息：必须
-- 不得覆盖原始字段：必须
-
-### 8.4 合并后检查项
-- 记录总数
-- DOI 重复数
-- 标题重复数
-- 缺失摘要数
-- 缺失 DOI 数
-- 来源库分布
-
----
-
-## 九、输出参数（Output Parameters）
-
-### 9.1 原始数据目录
-- `data/raw/`
-
-### 9.2 中间清洗数据目录
-- `data/interim/`
-
-### 9.3 最终处理数据目录
-- `data/processed/`
-
-### 9.4 文档目录
-以下文件统一放入 `reports/`：
-- `query_changelog.md`
-- `query_rationale.md`
-- `clean_rules.md`
-- `Params.md`
-- `data_quality.md`
-- `screening_rule.md`
-
-### 9.5 主说明文件
-- `README.md` 放仓库根目录
-
----
-
-## 十、质量控制参数（Quality Control Parameters）
-
-### 10.1 基础质量检查项
-- 题名是否缺失
-- 作者是否缺失
-- 摘要是否缺失
-- DOI 是否缺失
-- 年份是否缺失
-- 是否存在明显重复记录
-
-### 10.2 当前建议阈值
-- 题名缺失率：应为 0
-- 年份缺失率：应尽量接近 0
-- 摘要缺失率：允许存在，但需单独记录
-- DOI 缺失率：允许存在，不作为强制剔除条件
-- 重复记录：正式分析前应尽量清零
-
-### 10.3 异常记录处理方式
-- 不直接删除；
-- 先标注 `note`；
-- 再进入人工复核；
-- 复核结论写入 `processed` 或筛选记录表。
-
----
-
-## 十一、后续分析参数（Analysis Parameters）
-
-### 11.1 当前状态说明
-正式文献计量分析参数尚未最终锁定，因此以下内容为**预设分析参数**，仅作项目规划依据。
-
-### 11.2 发文趋势分析参数
-- 统计字段：`year`
-- 统计单位：篇
-- 输出形式：年度折线图 / 柱状图
-
-### 11.3 作者分析参数
-- 统计字段：`authors`
-- 处理方式：作者拆分后计数
-- 输出形式：高产作者表、合作网络图
-
-### 11.4 机构分析参数
-- 统计字段：`affiliations`
-- 输出形式：高产机构表、机构合作图
-
-### 11.5 关键词与主题分析参数
-前提条件：
-- 必须补齐或稳定获得关键词字段，或从摘要中提取辅助词
-
-当前状态：
-- CNKI / WoS 当前摘要字段较可用
-- 关键词字段仍需后续补充
-
-### 11.6 引文分析参数
-适用数据源：
-- 优先 WoS
-
-依赖字段：
-- `CR`
-- `TC`
-- `DI`
-- `UT`
-
----
-
-## 十二、版本管理参数（Versioning Parameters）
-
-### 12.1 当前版本
-- 参数文件版本：v0.1
-- 状态：当前生效
-
-### 12.2 参数更新触发条件
-以下情况必须更新 `Params.md`：
-1. 检索式结构发生改变；
-2. 新增数据库；
-3. 字段体系改变；
-4. 去重规则改变；
-5. 筛选规则改变；
-6. 分析工具或分析口径改变。
-
-### 12.3 联动更新文件
-参数更新后，原则上同步检查以下文件：
-- `README.md`
-- `query.yaml`
-- `query_changelog.md`
-- `field_dictionary.md`
-- `clean_rules.md`
-- `screening_rule.md`
-- `data_quality.md`
-
----
-
-## 十三、参数使用说明
-
-### 13.1 使用顺序
-建议按以下顺序使用本文件中的参数：
-1. 先读项目基础参数与检索参数；
-2. 再读数据源参数与字段映射参数；
-3. 然后按清洗参数处理原始数据；
-4. 再按去重参数、筛选参数完成中间表整理；
-5. 最后依据质量控制参数和分析参数进入正式分析阶段。
-
-### 13.2 使用边界
-- 本文件用于规范项目过程；
-- 不直接替代 `query.yaml`；
-- 不直接替代 `field_dictionary.md`；
-- 不直接替代 `clean_rules.md`；
-- 但上述文件中的关键设置，应与本文件保持一致。
-
-### 13.3 当前适用范围
-- 适用于当前阶段的 CNKI 与 WoS 双数据源处理；
-- 适用于检索、清洗、去重、筛选、合并的全过程；
-- 后续如新增数据库，必须扩展本文件对应部分。
-
----
-
-## 十四、版本记录
-
-### v0.1
-- 建立项目参数总表；
-- 覆盖检索、字段映射、清洗、去重、筛选、合并、输出、质量控制与分析预设参数；
-- 与当前 `README.md`、`field_dictionary.md`、`clean_rules.md` 保持一致。
-
----
-
-## 十五、共被引分析执行参数 (Co-citation Analysis Parameters)
-
-### 15.1 矩阵构建参数
-* **分析单元**：被引文献 (Cited Reference, CR)
-* **数据源字段**：`citing_paper` -> `cited_paper` (基于清洗后的合并数据集)
-* **矩阵类型**：
-    * **引用矩阵 R**：基础二值矩阵，R(i, j) = 1 表示施引文献 i 引用了被引文献 j。
-    * **共被引矩阵 C**：对称矩阵，计算公式为 $C = R^T \times R$（即 R 的转置乘以 R）。
-
-### 15.2 规模控制与数据清洗
-* **数据清洗**：通过代码自动剔除 `citing_paper` 或 `cited_paper` 中的空值 (NaN) 及重复引用记录。
-* **规模控制**：代码采用 `drop_duplicates()` 确保引用关系的唯一性，并根据项目需求通过 `Top-K` 筛选高频被引文献进入矩阵运算。
-
-### 15.3 网络拓扑参数
-* **相似度算法**：余弦相似度 (Cosine Similarity)。
-* **计算逻辑**：使用 `numpy.linalg.norm` 计算向量模长，通过矩阵乘法实现：$Sim(x, y) = (x \cdot y) / (\|x\| \cdot \|y\|)$。
-* **切边策略**：**Top-10 邻居过滤**。每个节点仅保留与其最相似的前 10 个邻居节点，并取并集保持对称，以确保网络拓扑紧凑、易于聚类。
-
-### 15.4 预期输出结果 (基于代码实际输出)
-* **引用矩阵**：`R_matrix.csv`（基础施引-被引对应表）
-* **共被引矩阵**：`C_matrix.csv`（文献两两共被引频次，对角线已归零）
-* **相似度矩阵**：`similarity_matrix.csv`（基于 Cosine 计算的原始相似度分值）
-* **过滤后的矩阵**：`filtered_matrix.csv`（经过 Top-N 过滤后的稀疏相似度矩阵）
-* **网络边表文件**：`network_edges.csv`（包含 source, target, weight 字段，适配 Gephi/VOSviewer）
-
----
-
-## 十六、共被引结果定义与验证参数 (Result Definition)
-
-### 16.1 矩阵计算逻辑
-* **输入数据**：`merged_with_citations.csv`。
-* **数学转换**：利用 Python `pandas` 的 `pivot_table` 构建 R 矩阵，通过 `@` 符号执行矩阵点积运算。
-* **对角线处理**：执行 `np.fill_diagonal(c.values, 0)`，强制消除自环 (Self-loops)，确保分析聚焦于文献间的关联。
-
-### 16.2 结果输出标准化
-* **对称性验证**：代码生成的 `C_matrix.csv` 和 `filtered_matrix.csv` 均为严格对称阵。
-* **权重定义**：输出边表的 `weight` 字段代表经过 Top-N 过滤后的共被引相似度强度。
-* **健壮性处理**：代码中对模长为 0 的节点进行了 `norms[norms == 0] = 1.0` 处理，避免了除以零导致的计算异常。
-
-### 16.3 存储与适配性
-* **存储路径**：`data/co_citation_outputs/`（由脚本自动创建）。
-* **字符编码**：统一采用 `utf-8-sig`，确保在 Excel 和各类计量软件中无中文乱码。
-
-
-## 十七、耦合/合作网络分析参数配置文档
-**适用脚本**：coupling_or_collab.py   
-**适用数据**：screened_final.csv（电力负荷预测方向筛选后文献）
-
-## 17.1 作者合作网络参数
-| 参数项 | 配置值 | 说明 |
-|--------|--------|------|
-| 核心作者筛选规则 | 发表文献数 ≥ 2 | 过滤低频作者，保证网络核心性 |
-| 合作关系生成规则 | 同一文献内作者两两配对 | 共同发表即视为合作关系 |
-| 网络布局算法 | spring_layout | 弹簧布局，优化节点分布，避免重叠 |
-| 布局参数 k | 3 | 节点间距离系数，适配小规模数据 |
-| 布局迭代次数 | 100 | 保证布局收敛稳定 |
-| 节点大小规则 | 发表文献数 × 300 | 节点大小与发文量正相关，直观体现作者活跃度 |
-| 节点颜色 | #FF6B6B（红色） | 区分合作网络与耦合网络 |
-| 边颜色 | #888888（灰色） | 弱化边的视觉干扰，突出节点结构 |
-| 边宽度 | 1.2 | 平衡视觉清晰度与网络可读性 |
-
-## 17.2 文献耦合网络参数
-| 参数项 | 配置值 | 说明 |
-|--------|--------|------|
-| 耦合关系阈值 | 共享被引文献数 ≥ 1 | 适配小规模数据，保留有效弱关联 |
-| 文献唯一标识规则 | 标题前20字符 + 发表年份 | 消除标题多写法歧义，唯一标识文献 |
-| 网络布局算法 | spring_layout | 弹簧布局，适配长文献名的节点分布 |
-| 布局参数 k | 4 | 放大节点间距，避免标签重叠 |
-| 布局迭代次数 | 100 | 保证布局收敛稳定 |
-| 节点大小 | 500（固定） | 统一节点大小，突出耦合关系强度 |
-| 节点颜色 | #4ECDC4（青色） | 与合作网络形成视觉区分 |
-| 边宽度规则 | 共享被引数 × 0.8 | 边宽与耦合强度正相关，直观体现关联紧密程度 |
-| 边颜色 | #555555（深灰） | 弱化边的视觉干扰，突出耦合结构 |
-| 边标签 | 显示共享被引数 | 标注耦合强度，便于量化分析 |
-## 17.3 可视化输出参数
-| 参数项 | 配置值 | 说明 |
-|--------|--------|------|
-| 画布尺寸 | 18 × 8 英寸 | 双图并排布局，适配学术论文插图比例 |
-| 输出分辨率 | 300 dpi | 满足印刷级清晰度要求 |
-| 图片格式 | PNG | 无损压缩，支持透明背景 |
-| 中文字体配置 | WenQuanYi Zen Hei / SimHei | 解决中文乱码问题，兼容多系统 |
-| 坐标轴 | 隐藏 | 突出网络结构，符合学术图谱规范 |
-| 标题格式 | 包含核心指标（节点数、密度/平均共享数） | 直观呈现网络关键统计信息 |
-## 17.4 数据清洗与过滤参数
-| 参数项 | 配置值 | 说明 |
-|--------|--------|------|
-| 作者名清洗规则 | 统一为「姓, 名」格式，单字母标记为未知作者 | 消除姓名歧义，保证统计准确 |
-| 被引文献过滤规则 | 长度 < 10 字符直接删除 | 过滤无效被引记录，提升耦合分析质量 |
-| 耦合关系去重 | 自动去重重复文献对 | 保证网络边的唯一性 |
-| 无效数据处理 | 空值、乱码直接过滤 | 避免无效数据干扰分析结果 |
-## 17.5 输出文件配置
-| 输出文件 | 存储路径 | 说明 |
-|----------|----------|------|
-| 双网络可视化图 | coupling_or_collab输出/collab_coupling_network.png | 作者合作+文献耦合双图，用于学术展示 |
-| 作者合作指标表 | coupling_or_collab输出/作者合作网络指标_screened.csv | 核心作者发文量、合作度统计 |
-| 文献耦合指标表 | coupling_or_collab输出/文献耦合网络指标_screened.csv | 文献耦合关系、共享被引数统计 |
-| 网络整体指标表 | coupling_or_collab输出/双网络整体指标汇总_screened.csv | 网络节点数、边数等核心指标汇总 |
+本文件中的当前主口径为 v2.1。旧版 LSTM-only 内容仅作为历史记录，不作为当前正式分析依据。
