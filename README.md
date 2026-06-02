@@ -100,7 +100,6 @@ terms:
 ---
 
 ### 2.4 标准 PRISMA 文献筛选状态流转图（规范化“1图”）
-
 评审老师可通过下方标准 PRISMA 拓扑流转图谱，对本团队项目的数据流向执行一键式审计（Auditing）：
 
 ```mermaid
@@ -113,31 +112,29 @@ graph TD
     style E fill:#fff2cc,stroke:#d6b656,stroke-width:2px;
     style F fill:#f8cecc,stroke:#b85450,stroke-width:2px;
     style G fill:#d5e8d4,stroke:#82b366,stroke-width:2px;
+    style H fill:#f8cecc,stroke:#b85450,stroke-width:2px;
+    style I fill:#f8cecc,stroke:#b85450,stroke-width:2px;
 
     %% 流程拓扑
-    subgraph 1_数据识别阶段 (Identification)
+    subgraph Identification [1_数据识别阶段]
         A[Web of Science 核心合集<br>检索命中: N = 1000+] --> B[CNKI 中国知网<br>检索命中: N = 400+]
         B --> C{全局元数据合并与去重<br>src/preprocessing.py}
     end
 
-    subgraph 2_一阶段初筛 (Stage 1 Screening)
+    subgraph Screening [2_一阶段初筛]
         C -->|标准化留存: 1,355 篇| E[标题与摘要独立审查<br>Title & Abstract Screen]
         C -->|格式残缺/完全重复| D[自动拦截排除<br>N = 112]
     end
 
-    subgraph 3_二阶段复筛 (Stage 2 Eligibility)
+    subgraph Eligibility [3_二阶段复筛]
         E -->|初筛通过: 1,055 篇| F[全文资格审查与引文核验<br>Full-text Review]
         E -->|E1: 错位噪声与跨领域干扰| H[人工排除: N = 300]
     end
 
-    subgraph 4_最终纳入阶段 (Included Matrix)
+    subgraph IncludedMatrix [4_最终纳入阶段]
         F -->|完整可计量文献| G[统计指标与图谱核心分析集<br>included_final.csv<br>N = 510 篇]
         F -->|E2: 未视LSTM为核心架构<br>E3: 引文References丢失| I[强行拦截排除: N = 545]
     end
-
-    %% 读图规范契约图注
-    caption[图 1. 本项目基于 PRISMA 规范的标准文献纳排漏斗流转图。参数及排除原因代码严格对照 reports/screening_rule.md。]
-
 ```
 
 ### 2.5 数据质量控制报告摘要 (`reports/data_quality.md`)
@@ -306,8 +303,6 @@ networks:
     similarity_metric: "Jaccard Coefficient (用于文献耦合)"
     min_coauthor_weight: 2               # 作者合作网络中，合著论文数 ≥ 2 篇方可建立连线
     institution_消歧: true               # 强力激活 reports/cleaning_rules.md
-
-```
 
 ```
 
