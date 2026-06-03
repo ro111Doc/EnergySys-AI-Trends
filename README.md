@@ -103,58 +103,35 @@ terms:
 
 ---
 
-### 2.3 文献纳排漏斗数据对照表
+### 2.3 双阶段文献纳排漏斗数据对照表（规范化“1表”）
 
-作为本仓库所有下游图谱计算的唯一合法数据大盘，两阶段人工纳排的过滤明细如下：
+根据课程对数据一致性的硬性要求，团队将两阶段人工纳排的过滤明细固化为数量矩阵。该表作为本仓库所有下游图谱计算的唯一合法数据大盘：
 
 | 筛选阶段 | 文献处理动作 | 留存/排除数量 | 累计剩余总量 | 核心驱动文件 / Reason Code |
-| --- | --- | --- | --- | --- |
-| **阶段 0：原始检索** | 从 WoS 与 CNKI 导出命中记录
-
- | 初始导入: +1,467
-
- | **1,467 篇**<br> | `data/raw/raw_data_*.csv`<br> |
-| **阶段 1：查重清洗** | 基于 Title/DOI 自动化全字匹配去重
-
- | 自动剔除: -112
-
- | **1,355 篇**<br> | `src/preprocessing.py`<br> |
-| **阶段 2：标题摘要初筛** | 盘查 Title/Abstract，拦截跨领域噪声
-
- | 人工排除: -300
-
- | **1,055 篇**<br> | `screened_stage1.csv` <br>
-
-<br> `E1-噪声阻断`（交通/CPU）
-
- |
-| **阶段 3：全文资格复筛** | 盘查正文核心模型，核验引文完整度
-
- | 人工排除: -545
-
- | **510 篇**<br> | `excluded_final.csv` <br>
-
-<br> `E2-方法偏误` / `E3-数据残缺`<br> |
-| **阶段 4：最终分析集** | 固化为全流水线核心驱动源
-
- | **最终纳入: 510**<br> | **510 篇**<br> | `data/processed/included_final.csv`<br> |
+| :--- | :--- | :--- | :--- | :--- |
+| **阶段 0：原始检索** | 从 WoS 与 CNKI 导出原始命中记录 | 初始导入: +1,467 | **1,467 篇** | `data/raw/raw_data_*.csv` |
+| **阶段 1：查重清洗** | 基于 Title/DOI 自动化全字匹配去重 | 自动剔除: -112 | **1,355 篇** | `src/preprocessing.py` |
+| **阶段 2：标题摘要初筛** | 盘查 Title/Abstract，拦截跨领域噪声 | 人工排除: -300 | **1,055 篇** | `data/processed/screened_stage1.csv`<br>**Reason**: `E1-噪声阻断`（如交通/CPU负载） |
+| **阶段 3：全文资格复筛** | 盘查正文核心模型，核验引文完整度 | 人工排除: -545 | **510 篇** | `data/processed/excluded_final.csv`<br>**Reason**: `E2-方法偏误` / `E3-数据残缺` |
+| **阶段 4：最终分析集** | 固化为全流水线核心驱动源 | 最终纳入: +510 | **510 篇** | `data/processed/included_final.csv` |
 
 ---
 
-### 2.4 标准 PRISMA 文献筛选状态流转图
+### 2.4 标准 PRISMA 文献筛选状态流转图（规范化“1图”）
+评审老师可通过下方标准 PRISMA 拓扑流转图谱，对本团队项目的数据流向执行一键式审计（Auditing）：
 
 ```mermaid
 graph TD
     %% 样式定义
-    style A fill:#ececff,stroke:#333,stroke-width:1px;
-    style B fill:#ececff,stroke:#333,stroke-width:1px;
-    style C fill:#fff2cc,stroke:#d6b656,stroke-width:1px;
-    style D fill:#f8cecc,stroke:#b85450,stroke-width:1px;
-    style E fill:#fff2cc,stroke:#d6b656,stroke-width:1px;
-    style F fill:#f8cecc,stroke:#b85450,stroke-width:1px;
+    style A fill:#ececff,stroke:#333,stroke-width:2px;
+    style B fill:#ececff,stroke:#333,stroke-width:2px;
+    style C fill:#fff2cc,stroke:#d6b656,stroke-width:2px;
+    style D fill:#f8cecc,stroke:#b85450,stroke-width:2px;
+    style E fill:#fff2cc,stroke:#d6b656,stroke-width:2px;
+    style F fill:#f8cecc,stroke:#b85450,stroke-width:2px;
     style G fill:#d5e8d4,stroke:#82b366,stroke-width:2px;
-    style H fill:#f8cecc,stroke:#b85450,stroke-width:1px;
-    style I fill:#f8cecc,stroke:#b85450,stroke-width:1px;
+    style H fill:#f8cecc,stroke:#b85450,stroke-width:2px;
+    style I fill:#f8cecc,stroke:#b85450,stroke-width:2px;
 
     %% 流程拓扑
     subgraph Identification [1_数据识别阶段]
@@ -176,9 +153,7 @@ graph TD
         F -->|完整可计量文献| G[统计指标与图谱核心分析集<br>included_final.csv<br>N = 510 篇]
         F -->|E2: 未视LSTM为核心架构<br>E3: 引文References丢失| I[强行拦截排除: N = 545]
     end
-
 ```
-
 ---
 
 ### 2.5 数据质量控制报告摘要 (`reports/data_quality.md`)
@@ -266,21 +241,11 @@ D:.
 
 本项目拒绝盲目依赖单一黑盒工具，构建了由“开源复现层”与“视觉呈现层”组成的互补型生态栈：
 
-| 工具/类库 | 所在层级 | 核心职责 | 预期输出成果 | 风险应对方案 |
-| --- | --- | --- | --- | --- |
-| **Python 3.10+** <br>
-
-<br> (Pandas / NetworkX) | 开源复现层 | 自动化去重、实体消歧，自主构建共被引/耦合/合作拓扑矩阵 | `similarity_matrix.csv`<br>
-
-<br>`network_edges.csv` | 大规模矩阵运算内存溢出风险；<br>
-
-<br>应对：`utils.py` 采用**稀疏矩阵分块优化**。 |
-| **Matplotlib / Gephi** | 视觉呈现层 | 高清网络拓扑图绘制、Louvain 社区聚类着色与力导向布局 | `co_citation_network_colored.png` | 节点过多导致“毛线团”效应；<br>
-
-<br>应对：在配置中**强制设定相似度阈值剪枝**。 |
-| **CiteSpace v6.x** | GUI 对照层 | 作为基线底座，验证自主编写的 Python 算法的准确性 | 对照图谱与突现词（Burst）列表 | 闭源黑盒难以调整算法逻辑；<br>
-
-<br>应对：**仅作为结果交叉核对验证**。 |
+| 工具 / 类库 | 所在层级 | 核心职责 | 预期输出成果 | 风险应对方案 |
+| :--- | :--- | :--- | :--- | :--- |
+| **Python 3.10+**<br>(Pandas / NetworkX) | 开源复现层 | 自动化去重、实体消歧，自主构建共被引/耦合/合作拓扑矩阵 | `similarity_matrix.csv`<br>`network_edges.csv` | 大大规模矩阵运算内存溢出风险；<br>**应对**：`utils.py` 采用**稀疏矩阵分块优化**。 |
+| **Matplotlib / Gephi** | 视觉呈现层 | 高清网络拓扑图绘制、Louvain 社区聚类着色与力导向布局 | `co_citation_network_colored.png` | 节点过多导致“毛线团”效应；<br>**应对**：在配置中**强制设定相似度阈值剪枝**。 |
+| **CiteSpace v6.x** | GUI 对照层 | 作为基线底座，验证自主编写的 Python 算法的准确性 | 对照图谱与突现词（Burst）列表 | 闭源黑盒难以调整算法逻辑；<br>**应对**：**仅作为结果交叉核对验证**。 |
 
 ---
 
@@ -326,14 +291,6 @@ networks:
 
 ---
 
-
-
-
-## 🔍 5. 核心计量发现（基于 IMRAD 与 Evidence-Based 证据链）
-
-本项目围绕前文提出的四个核心综述问题（RQ1–RQ4），对最终纳入的 510 篇纯净文献展开多维图谱解构。本章所有推论均建立在可验证的量化指标之上，坚决杜绝无证据的主观臆测。
-
----
 ## 🔍 4. 核心计量发现（基于 IMRAD 与 Evidence-Based 证据链）
 
 本项目围绕四个核心综述问题（RQ1–RQ4），对最终纳入的 510 篇纯净文献展开多维图谱解构，所有推论均建立在量化指标之上。
