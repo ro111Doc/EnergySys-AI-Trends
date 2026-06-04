@@ -225,7 +225,7 @@ D:.
 │  └─03_summary/                          # 终审总结与高阶数据矩阵
 │          
 ├─paper/                                  # 【综述成果层】最终交付的学术成果
-│      p.txt                              # 结构化正文初稿文本
+│      LSTM_电力负荷预测.docx              # mini review最终版
 │      
 └─reports/                                # 【学术规范层】对标高标准评审的质量资产
         cleaning_rules.md                 # 数据消歧规则的版本控制说明
