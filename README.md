@@ -46,10 +46,10 @@
 为规避传统综述“机械读图”与“资料干瘪堆砌”的通病，本项目围绕以下 4 个核心学术问题（RQ）展开论证与证据链闭环：
 
 💡 核心学术论证闭环
-├── 📈 RQ1【发文演化趋势】 ── 2015–2025 年间发文量呈现怎样的阶段化特征？是否已孕育范式革命？
-├── 🔀 RQ2【技术场景交织】 ── 哪些改进模型（Method）与电力应用场景（Scenario）构成了核心拓扑交叉点？
-├── 🕸️ RQ3【知识基础拓扑】 ── 共被引与文献耦合网络中，哪些是改变领域走向的 Milestone（里程碑）文献？
-└── 👥 RQ4【学术生态格局】 ── 作者合著、机构合作、国家分布呈现怎样的协同演化网络格局？地理集中度如何？
+* 📈 **RQ1【发文演化趋势】** —— 2015-2025 年间发文量呈现怎样的阶段化特征？是否已孕育范式革命？
+* 🔀 **RQ2【技术场景交织】** —— 哪些改进模型（Method）与电力应用场景（Scenario）构成了核心拓扑交叉点？
+* 🕸️ **RQ3【知识基础拓扑】** —— 共被引与文献耦合网络中，哪些是改变领域走向的 Milestone（里程碑）文献？
+* 👥 **RQ4【学术生态格局】** —— 作者合著、机构合作、国家分布呈现怎样的协同演化网络格局？地理集中度如何？
 
 
 ---
@@ -75,24 +75,40 @@
 
 ### 2.2 参数化检索式设计 (`config/query.yaml`)
 
-本项目将核心词库拆分为 **方法（Method）、任务（Task）、上下文背景（Context）以及排除项（Exclusion）** 四个维度[cite: 1]，拒绝随意盲目的检索[cite: 1]。
+本项目将核心词库拆分为 **方法（Method）**、**任务（Task）**、**上下文背景（Context）** 以及 **排除项（Exclusion）** 四个维度，拒绝随意盲目的检索。
 
-> 核心布尔逻辑表达式：
-> $$\text{Final Query} = (\text{Method}) \ \mathbf{AND} \ (\text{Task}) \ \mathbf{AND} \ (\text{Context}) \ \mathbf{NOT} \ (\text{Exclusion})$$[cite: 1]
+> 🔏 **核心布尔逻辑表达式**
+> $$Final Query = (Method) \ AND \ (Task) \ AND \ (Context) \ NOT \ (Exclusion)$$
 
 ```yaml
 # 核心检索词库摘录 (详见 config/query.yaml)
 terms:
-  method:     # 预测模型与方法层
-    - LSTM / "long short term memory" / BiLSTM / "bidirectional LSTM"[cite: 1]
-    - "attention mechanism" / Transformer / GRU / RNN / TCN / 时序预测[cite: 1]
-  task:       # 核心应用任务
-    - "load forecasting" / "load prediction" / 电力负荷预测 / 负荷预测[cite: 1]
-  context:    # 工业上下文场景
-    - "power system" / "smart grid" / "power grid" / 电力系统 / 智能电网[cite: 1]
-  exclusion:  # 强噪音排除项（严防跨领域偏误）
-    - "traffic flow forecasting" (交通流) / "network traffic" (网络流量)[cite: 1]
-    - "CPU load" (CPU负载) / "bridge load" (桥梁荷载)[cite: 1]
+  method:            # 预测模型与方法层
+    - "LSTM"
+    - "long short term memory"
+    - "BiLSTM"
+    - "bidirectional LSTM"
+    - "attention mechanism"
+    - "Transformer"
+    - "GRU"
+    - "RNN"
+    - "TCN"
+  task:              # 核心应用任务
+    - "load forecasting"
+    - "load prediction"
+    - "电力负荷预测"
+    - "负荷预测"
+  context:           # 工业上下文场景
+    - "power system"
+    - "smart grid"
+    - "power grid"
+    - "电力系统"
+    - "智能电网"
+  exclusion:         # 强噪音排除项 (严防跨领域偏误)
+    - "traffic flow forecasting"   # 交通流量
+    - "network traffic"            # 网络流量
+    - "CPU load"                   # CPU负载
+    - "bridge load"                # 桥梁荷载
 
 ```
 
@@ -159,13 +175,9 @@ graph TD
 
 在运行分析脚本前，团队对最终纳入的 510 篇文献进行了显式的数据质量扫描（Data Quality Scan）：
 
-```text
-📋 DATA QUALITY SCORECARD
-├── 🔹 核心字段完整率 ── Title, Authors, Year, Abstract 填充率达 100%
-├── 🔹 实体消歧处理   ── 统一将 "State Grid Corp China" 等长尾变体合并为规范名称
-└── 🔹 全局引文可计量 ── 510 篇文献均带完整引文链接，强力支撑共被引与文献耦合算法
-
-```
+* 📋 **核心字段完整率** —— `Title`、`Authors`、`Year`、`Abstract` 关键元数据字段填充率达 **100%**。
+* 🔀 **实体消歧标准化** —— 统一将 `"State Grid Corp China"`、`"SGCC"` 等长尾变体合并为规范名称，防范群落割裂。
+* 🕸️ **全局引文可计量** —— 510 篇文献均带有完整引文链接（References），强力支撑下游共被引与文献耦合矩阵运算。
 
 > 详细消歧与清洗规则参见 [📁 docs/cleaning_rules.md](https://www.google.com/search?q=docs/cleaning_rules.md)。
 > 
