@@ -379,13 +379,12 @@ networks:
 
 ### 5.1 团队成员全栈分工矩阵 (Traceability Matrix)
 
-| 阶段 / 任务 | 兰宏智 (技术统筹与工程开发) | 龚乐瑶 (数据底座与清洗流水线) | 郭逸清 (算法核心与指标规范) | 刘泽熙 (工程支持与流程设计) |
+| 进度 / 成员 | 👨‍💻 刘泽熙 | 👩‍💻 龚乐瑶 | 👨‍💻 郭逸清 | 👨‍💻 兰宏智 |
 | :--- | :--- | :--- | :--- | :--- |
-| **阶段一：<br>环境与检索式** | 配置基础 `.gitignore`<br>与环境锁依赖表 | 拆解综述问题，编写核心<br>`config/query.yaml` 词库 | 建立原始字段字典<br>`data/field_dictionary.md` | 统一检索格式，清洗非电磁/<br>跨领域噪声，编写 Requirements |
-| **阶段二：<br>纳排与清洗** | 编写 `data_loader.py` 与<br>`preprocessing.py` 脚本 | 执行人工标题摘要盲审，<br>标注双阶段原因代码 | 制定 `screening_rule.md`，<br>硬编码机构/作者消歧规则 | 绘制 PRISMA 漏斗流程草图，<br>执行元数据完整率扫描 |
-| **阶段三：<br>算法与图谱** | 改进共被引脚本 `co_citation.py`<br>优化稀疏矩阵分块运算 | 运行计量分析脚本，导出并<br>校准年趋势与交叉频次 | 将共被引关键控制参数<br>固化落盘至 `PARAMS.md` | 编写文献耦合与合作网络<br>构建脚本 `coupling_or_collab.py` |
-| **阶段四：<br>成果与交付** | 整合全流水线一键复现指令，<br>完成 README 架构自检 | 提取 Top 关键高被引文献，<br>完成查新报告 `novelty_search` | 撰写 `metrics_spec.md` 规范<br>文档（含 LaTeX 公式推导） | 编排组织成果，生成最终交付<br>的结构化综述文本 `paper/p.txt` |
-
+| **第一次**<br>*(检索与筛选阶段)* | 1. 与郭逸清讨论确定文献筛选规则。<br>2. 绘制 **PRISMA 筛选流程草图**（*注意：暂留本地，阶段二完后再传 GitHub*）。<br>3. 补齐 Lesson 1：撰写项目说明 `README.md`（*别与兰宏智的混淆*）和 `Requirements.txt`。<br>4. **阶段三核心**：实际执行文献筛选，独立主导完成核心文件 `novelty_search_v0.md`。 | 1. 与兰宏智讨论确定同义词表及限定条件。<br>2. 负责编写 `query_rationale.md` 和 `query_changelog.md`（第一版日志）。<br>3. 实际检索并与兰宏智整合数据，生成 `field_dictionary.md`，登记 `processed`。检索有改善时更新日志。<br>4. 撰写数据质量报告 `data_quality.md`。<br>5. 协助处理阶段一、二后的团队杂事。 | 1. 与刘泽熙讨论确定文献筛选规则。<br>2. 负责编写 `screening_rule.md`（*注意：暂留本地，阶段二完后再传 GitHub*）。<br>3. 补齐 Lesson 1：撰写《方向与开源项目候选表》并提交开发环境截图。 | 1. 与龚乐瑶讨论确定同义词表、限定及排除条件。<br>2. 负责编写 **VO 检索式** 和 `query.yaml`。<br>3. 实际检索并与龚乐瑶整合数据，撰写项目阶段的 `README.md`（*注意：别覆盖了 Lesson 1 的原 README*）。 |
+| **第二次**<br>*(指标规范与网络v1)* | 1. 负责第四部分：编写网络代码 `src/networks/coupling_or_collab.py`（*至少实现耦合或合作网络中的一类，对应 Lesson 8*）。<br>2. 统筹/编写 `cleaning_rules.md`（清洗/消歧规则）以及 `Params.md`（涉及 Lesson 5/6/7/8 的共有核心参数）。 | 1. 负责第一部分：编写图数据模型文档 `docs/data_model.md`（*对应 Lesson 5*）。<br>2. 在原有的 `reports/data_quality.md` 后面**追加撰写**改进部分（*不删原内容*）。 | 1. 负责第三部分：编写共被引网络代码 `src/networks/co_citation.py`（*至少包含矩阵构建函数，对应 Lesson 7*）。 | 1. 负责完成第二部分：编写指标规范文档 `reports/metrics_spec.md`（*对应 Lesson 6*）。 |
+| **第三次**<br>*(复筛优化与迭代)* | 1. **等郭逸清弄完共被引后**，改进 `coupling_or_collab.py` 代码。<br>2. 更新 `cleaning_rules.md`（补充消歧规则并控制版本）。<br>3. 将耦合/合作网络参数**追加写入** `params.md` 尾部。<br>4. 负责 Lesson 9 任务：撰写工具路线对照表 `tool_selection.md`。 | 1. 根据刘泽熙复筛后的新数据/选题，在文档末尾**追加更新** `data_model.md`、`data_quality.md` 和 `cleaning_rules.md`。<br>2. 绘制**图数据模型草图**（包含节点、边、属性、示例数据），代码可上传至 `src/`。 | 1. 根据新数据改进 `co_citation.py` 代码。<br>2. 在 `params.md` 后面**追加写入**共被引的相关参数。<br>3. 负责 Lesson 9 任务：撰写 `baseline/params.md`。 | 1. 根据刘泽熙复筛后的新数据/选题，改进 `metrics_spec.md` 和 `params.md`。<br>2. 分析复筛后的文件，制作**指标可视化图**（发文趋势、被引分布等，产出 `.png` 或 `.csv`），代码上传至 `src/` 文件夹。 |
+| **第四次**<br>*(最终冲刺与交付)* | 1. 与郭逸清共同负责撰写最终总报告、制作 PPT 并准备 Pre 汇报。<br>2. 编排组织成果，协助生成结构化综述文本 `paper/p.txt`。 | 1. 负责完善最终的根目录 `README.md`。<br>2. 规范化、整理并检查整个项目的全部工程文件。 | 1. 与刘泽熙共同负责撰写最终总报告、制作 PPT 并准备 Pre 汇报。 | 1. 独立/主导负责撰写最终的核心**综述报告文本**。 |
 ---
 
 ### 5.2 团队流水线一键式复现指南 (Quick Start)
